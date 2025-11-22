@@ -1,10 +1,13 @@
 * RUN
  - requirements: miniconda
   #+begin_src bash
+   cd MAP-Zarizeni-pro-snimani-gest/pc_driver
+
    conda env create -f environment.yml
    conda activate pc_driver
 
-   python src/pc_driver/main.py
+   cd src
+   python -m pc_driver.main
  #+end_src
 
  - pakcage addition:
