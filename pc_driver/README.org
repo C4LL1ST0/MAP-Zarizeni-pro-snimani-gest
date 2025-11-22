@@ -1,0 +1,15 @@
+* RUN
+ - requirements: miniconda
+  #+begin_src bash
+   conda env create -f environment.yml
+   conda activate pc_driver
+
+   python src/pc_driver/main.py
+ #+end_src
+
+ - pakcage addition:
+   #+begin_src bash
+    conda install [package]
+    conda env export --from-history > environment.yml
+   #+end_src
+   - delete prefix... line in environment.yml

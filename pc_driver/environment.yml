@@ -1,0 +1,6 @@
+name: pc_driver
+channels:
+  - defaults
+dependencies:
+  - numpy
+
