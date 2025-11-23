@@ -3,4 +3,4 @@ channels:
   - defaults
 dependencies:
   - numpy
-
+  - pydantic

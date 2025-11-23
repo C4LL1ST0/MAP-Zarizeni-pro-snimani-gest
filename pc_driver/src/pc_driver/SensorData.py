@@ -1,6 +1,6 @@
-from typing import NamedTuple
+from pydantic import BaseModel
 
-class SensorData(NamedTuple):
+class SensorData(BaseModel):
     AcX: int
     AcY: int
     AcZ: int
