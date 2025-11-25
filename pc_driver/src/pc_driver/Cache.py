@@ -3,7 +3,7 @@ from pc_driver.SensorData import SensorData
 from pc_driver.TrainObject import TrainObject
 from pc_driver.Gesture import Gesture
 from pathlib import Path
-
+import json
 
 class Cache:
     def __init__(self) -> None:
@@ -21,24 +21,33 @@ class Cache:
     def saveCacheAsTrainDataToFile(self, filename: str, gesture: Gesture) -> None:
         myfile = Path("../data/" + filename)
         if(not myfile.is_file()):
-            print("File does not exist.")
+            print("File: " + filename + " does not exist.")
             with open("../data/" + filename, "x") as f:
-                f.write("[]")
-            return
+                f.write("")
+                print("File: " + filename + " created.")
 
         trainFile = open("../data/" + filename, "r")
-        trainData: List[TrainObject] = TrainObject.model_validate_json(trainFile.read())
-        trainFile.close()
+        trainData: List[TrainObject] = []
 
-        newTrainData = TrainObject(self.data, gesture)
+        try:
+            data = json.load(trainFile)   # -> Python list/dict
+            trainData = [TrainObject(**item) for item in data]
+        except Exception as e:
+            trainData = []
+            print("Failed to read previous data.", e)
+        finally:
+            trainFile.close()
+
+        newTrainData = TrainObject(sensorData=self.data, gesture=gesture)
         trainData.append(newTrainData)
 
         with open("../data/" + filename, "w") as f:
-            f.write(trainData.model_dump_json())
+            json_string = json.dumps([obj.model_dump() for obj in trainData], indent=2)
+            f.write(json_string)
 
         self.clear()
 
-        print("Received data saved as: " + filename + "gesture: " + gesture)
+        print("Received data saved as: " + filename + " gesture: " + str(gesture.value))
 
     def clear(self):
         self.data = []

@@ -6,3 +6,6 @@ from pydantic import BaseModel
 class TrainObject(BaseModel):
     sensorData: List[SensorData]
     gesture: Gesture
+
+    class Config:
+        use_enum_values = True

@@ -28,10 +28,12 @@ class Receiver:
                     self.receiving = False
                 #continue
 
-            if len(packet) != 24:
-                continue
+            if packet is not None:
+                if len(packet) != 12:
+                    print("Are you connected to ESP wifi?")
+                    continue
 
-            unpacked = struct.unpack("6i", packet)
+            unpacked = struct.unpack("6h", packet)
             values = SensorData(
                 AcX=unpacked[0],
                 AcY=unpacked[1],
@@ -43,30 +45,30 @@ class Receiver:
 
             self.cache.add(values)
 
-    def start_receiving(self) -> None:
-        while self.receiving:
-            packet: bytes
-            addr: Tuple[str, int]
-
-            try:
-                packet, addr = self.sock.recvfrom(1024)
-            except socket.timeout:
-                print("No data received")
-
-            if len(packet) != 24:
-                continue
-
-
-            unpacked = struct.unpack("6i", packet)
-            values = SensorData(
-                AcX=unpacked[0],
-                AcY=unpacked[1],
-                AcZ=unpacked[2],
-                GyX=unpacked[3],
-                GyY=unpacked[4],
-                GyZ=unpacked[5]
-            )
-            self.cache.add(values)
+#    def start_receiving(self) -> None:
+#        while self.receiving:
+#            packet: bytes
+#            addr: Tuple[str, int]
+#
+#            try:
+#                packet, addr = self.sock.recvfrom(1024)
+#            except socket.timeout:
+#                print("No data received")
+#
+#            if len(packet) != 12:
+#                continue
+#
+#
+#            unpacked = struct.unpack("6h", packet)
+#            values = SensorData(
+#                AcX=unpacked[0],
+#                AcY=unpacked[1],
+#                AcZ=unpacked[2],
+#                GyX=unpacked[3],
+#                GyY=unpacked[4],
+#                GyZ=unpacked[5]
+#            )
+#            self.cache.add(values)
 
     def end_receiving(self) -> None:
         self.receiving = False
