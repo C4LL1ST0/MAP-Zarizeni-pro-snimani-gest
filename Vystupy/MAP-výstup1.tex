@@ -1,0 +1,136 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[czech]{babel}
+\usepackage[hyphens]{url}
+\usepackage[colorlinks=true, urlcolor=blue, linkcolor=black,
+breaklinks]{hyperref}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{longtable}
+\renewcommand{\arraystretch}{1.5}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{ {.//} }
+
+\sloppy
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\thispagestyle{plain}
+\pagenumbering{gobble}
+\vspace*{1.0cm}
+
+\textbf{\LARGE{1. Výstup Maturitní práce}}
+\vspace{2cm}
+\hrule
+\vspace{0.5cm}
+{\Huge \textbf{Zařízení na snímání gest}}
+\vspace{0.5cm}
+\hrule
+\vspace{3cm}
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} 
+  \large{\emph{autoři:}\\ Štěpán Bílek, \newline Lukáš Karásek}
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright}
+  \large{\emph{konzultant:} \\ Jaroslav Kořínek}
+\end{flushright}
+\end{minipage}
+\vfill
+\large{Školní rok 2024/2025}
+\end{center}
+\end{titlepage}
+
+
+\pagenumbering{Roman}
+\setcounter{page}{2}
+
+\section{Úvod}
+\paragraph{}
+Náš první výstup maturitní práce obsahuje hardware a zpracování dat. Konkrétněji 3D model krabičky ve které vše bude, výběr a nákup komponent a nakonec návrh a objednání PCB.
+
+\section{Hardware}
+\subsection{3D modely} \label{3D modely}
+\paragraph{}
+Až na elektrické části bude celé zařízení tisknuté na 3D tiskárně, z čehož vyplývá, že si modely zařízení musíme vymodelovat sami, a to kvůli námi navrženému PCB, konkrétně kvůli jeho rozměrům. Na zařízení jsou potřeba 2 modely, a to tělo a víko, s tím se pojí vymyšlení a implementace způsobu jak tyto části spojit tak, aby byli oddělitelné ale zároveň drželi dostatečně pevně při sobě. Toho jsme docílili pomocí systému s drobným zpětným háčkem na těle a odpovídajícím protikusem na víku.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{MAP-krabicka-v2.png}
+  \caption{Tělo krabičky-model}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{MAP-vycko-v1.png}
+  \caption{Víko krabičky-model}
+\end{figure}
+
+
+
+
+
+\subsection{Komponenty} \label{Komponenty}
+\paragraph{}
+Komponenty jsme vybrali následující:
+\begin{enumerate}
+    \item \textbf{ESP32 C3} - mikrokontroler
+    \item \textbf{MPU-6050} - gyroskop
+    \item \textbf{KLS7-SS02} - posuvný spínač
+    \item \textbf{Mouser Electronics tlačítka}
+    \item \textbf{LED Diody}
+\end{enumerate}
+
+
+\subsection{PCB} \label{PCB}
+\paragraph{}
+Tištěný spoj byl navržen dle zásady: "V jednoduchosti je krása." Jeho úkolem je propojit nejen elektrické součástky, ale také už hotové komponenty(esp32, mpu6050). Bylo potřeba nakresli vlastní obtisky součástek i schematické symboly, aby bylo možno udělat v softwaru KiCad kompletní návrh. Tištěný spoj je dvouvrstvý a základním materiálem je standardní dielektrikum FR-4. Spoj byl vyroben firmou JLCPCB.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{PCB.png}
+  \caption{PCB-návrh}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{1000005469.jpg}
+  \caption{PCB}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{1000005474.jpg}
+  \caption{PCB v krabičce}
+\end{figure}
+
+
+\section{Zpracování dat} \label{Zprac}
+\paragraph{}
+Zařízení bude fungovat následovně mikrokontroler přečte data čipu MPU6050 a ta následně odešle do počítače uživatele. MPU6050 poskytuje data z gyroskopu a akcelerometru pro každou ze tří prostorových os. Celkově se tedy jedná o 6 hodnot, které nás zajímají. Tyto hodnoty budou odesílány jako jednoduché uspořádané pole, jelikož se jedná o nejjednodušší a nejefektivnější řešení. Vyčítání a uspořádání jsme odzkoušeli.
+
+\newpage
+\section{Dělba práce}
+\paragraph{}
+Odvedená práce byla rozdělena následujícím způsobem:
+
+\textbf{Lukáš}
+\begin{itemize}
+    \item \ref{3D modely} \textit{3D modely}
+    \item \ref{Komponenty} \textit{Komponenty}
+\end{itemize}
+
+\textbf{Štěpán}
+\begin{itemize}
+    \item \ref{PCB} \textit{PCB}
+    \item \ref{Zprac} \textit{Zpracování dat}
+\end{itemize}
+\vspace{5cm}
+\tableofcontents
+\end{document}
