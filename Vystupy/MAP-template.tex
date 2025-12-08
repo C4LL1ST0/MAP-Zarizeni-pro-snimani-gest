@@ -1,0 +1,69 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[czech]{babel}
+\usepackage[hyphens]{url}
+\usepackage[colorlinks=true, urlcolor=blue, linkcolor=black,
+breaklinks]{hyperref}
+\usepackage{lipsum}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{longtable}
+\renewcommand{\arraystretch}{1.5}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{ {.//} }
+
+\sloppy
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\thispagestyle{plain}
+\pagenumbering{gobble}
+\vspace*{1.0cm}
+
+\textbf{\LARGE{1. Výstup Maturitní práce}}
+\vspace{2cm}
+\hrule
+\vspace{0.5cm}
+{\Huge \textbf{Zařízení na snímání gest}}
+\vspace{0.5cm}
+\hrule
+\vspace{3cm}
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} 
+  \large{\emph{autor:}\\ \textbf{doplň}}
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright}
+  \large{\emph{konzultant:} \\ Jaroslav Kořínek}
+\end{flushright}
+\end{minipage}
+\vfill
+\large{Školní rok 2025/2026}
+\end{center}
+\end{titlepage}
+
+
+\pagenumbering{Roman}
+\setcounter{page}{2}
+
+\section{Úvod}
+\paragraph{}
+\lipsum[1]
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{PCB-návrh}
+\end{figure}
+
+\tableofcontents
+
+\end{document}
