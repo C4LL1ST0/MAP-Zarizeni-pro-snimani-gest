@@ -1,0 +1,14 @@
+[0] Config.pm:306> INFO - This is Biber 2.18
+[0] Config.pm:309> INFO - Logfile is 'vystup2.blg'
+[41] biber:340> INFO - === Pá pro  5, 2025, 14:45:32
+[49] Biber.pm:418> INFO - Reading 'vystup2.bcf'
+[84] Biber.pm:978> INFO - Found 2 citekeys in bib section 0
+[91] Biber.pm:4401> INFO - Processing section 0
+[98] Biber.pm:4592> INFO - Looking for bibtex file 'citace.bib' for section 0
+[98] bibtex.pm:1713> INFO - LaTeX decoding ...
+[98] bibtex.pm:1518> INFO - Found BibTeX data source 'citace.bib'
+[104] UCollate.pm:68> INFO - Overriding locale 'cs-CZ' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[104] UCollate.pm:68> INFO - Overriding locale 'cs-CZ' defaults 'variable = shifted' with 'variable = non-ignorable'
+[104] Biber.pm:4221> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'cs-CZ'
+[107] bbl.pm:654> INFO - Writing 'vystup2.bbl' with encoding 'UTF-8'
+[108] bbl.pm:757> INFO - Output to vystup2.bbl

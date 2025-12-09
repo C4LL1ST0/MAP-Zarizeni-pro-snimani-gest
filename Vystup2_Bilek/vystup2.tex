@@ -1,0 +1,105 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[czech]{babel}
+\usepackage[hyphens]{url}
+\usepackage[colorlinks=true, urlcolor=blue, linkcolor=black, breaklinks, citecolor=black]{hyperref}
+\usepackage{graphicx}
+
+\graphicspath{ {.//obrazky/} }
+\usepackage[backend=biber]{biblatex}
+\addbibresource{citace.bib}
+
+
+
+\sloppy
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\thispagestyle{plain}
+\pagenumbering{gobble}
+\vspace*{1.0cm}
+
+\textbf{\LARGE{Výstup 2 maturitní práce}}
+\vspace{2cm}
+\hrule
+\vspace{0.5cm}
+{\Huge \textbf{Zařízení na snímání gest}}
+\vspace{0.5cm}
+\hrule
+\vspace{3cm}
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft}
+  \large{\emph{autor:}\\ Štěpán Bílek}
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright}
+  \large{\emph{konzultant:} \\ Jaroslav Kořínek}
+\end{flushright}
+\end{minipage}
+\vfill
+\large{Školní rok 2025/2026}
+\end{center}
+\end{titlepage}
+
+
+\pagenumbering{Roman}
+\setcounter{page}{2}
+
+\section{Úvod}
+\paragraph{}
+Primárním cílem výstupu 2 maturitní práce bylo seznámit se s principem neuronových sítí a navrhnout jednu pro
+ovládací program za účelem rozpoznání jednotlivých gest. Cílem sekundárním bylo začít na ovládacím programu
+samotném, aby byl schopen přijímat data ze zařízení a ukládat je jako trénovací soubory pro neuronovou síť.
+
+\section{Neuronová síť}
+\subsection{Poznatky}
+\paragraph{}
+Umělá neuronová síť je struktura určená pro distribuované paralelní zpracování dat. Skládá se z umělých neuronů,
+jejichž volným předobrazem je biologický neuron. Neurony jsou vzájemně propojeny synaptickými vazbami a navzájem
+si předávají signály a transformují je pomocí aktivačních funkcí. \cite{prehled-NN}
+
+Neurony jsou uspořádávány do vrstev. Existuje vrstva vstupní, skrytá (kterých může být více) a výstupní.
+
+\subsubsection{Neurony a synapse}
+\paragraph{}
+Neuron je funkcí, která má libovolný počet vstupů. Tato funkce je ve své podstatě jednoduchá, přijímané vstupy se
+nejdříve vynásobí vahou vázanou k synapsy, ze které přišly, dále se tyto hodnoty sečtou a nakonec je přičten tzv. \uv{bias}.
+
+Synapse je propojení mezi neurony. Ke každé jednotlivé synapsy, kterou neuron má, je přiřazena váha, která začíná
+na náhodném čísle a v procesu učení je upřesnǒvána.
+
+Za předpokladu neuronu s 1 vstupem[x], vahou na synapsy[w], bias[b] a jedním výstupem[y] vypadá jeho oprace po matematické stránce takto:
+\begin{center}
+  \begin{equation}
+    y = x*w + b
+  \end{equation}
+\end{center}
+čili se jedná o přímku.
+
+\subsubsection{Aktivační funkce}
+\paragraph{}
+Je další funkcí v pořadí za neuronem. Tato funkce není nezbytná pro neuronovou síť, ale zpravidla dělá
+výstup nelineárním, díky čemuž se síť může naučit komplexnější vzory. Nejčastěji používanými jsou: \textbf{sigmoid},
+\textbf{tanh}, \textbf{ReLU} a tomu podobné, \textbf{softmax}. Pro určíté úkoly na různých vrstvách sítě
+jsou některé funkce lepší, než jiné. Odvíjí se to od faktorů jako příkrost vzrůstu a H\textsubscript{f}.\cite{af}
+
+
+
+\subsubsection{Ztrátová funkce}
+
+\subsubsection{Optimalizační funkce}
+
+\section{Ovládací program}
+
+
+
+
+\newpage
+\tableofcontents{}
+\printbibliography
+\end{document}
