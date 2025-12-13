@@ -39,6 +39,56 @@
       \verb https://www.geeksforgeeks.org/machine-learning/activation-functions-neural-networks/
       \endverb
     \endentry
+    \entry{loss}{online}{}
+      \field{sortinit}{}
+      \field{sortinithash}{495dc9894017a8b12cafa9c619d10c0c}
+      \verb{urlraw}
+      \verb https://www.geeksforgeeks.org/deep-learning/loss-functions-in-deep-learning/
+      \endverb
+      \verb{url}
+      \verb https://www.geeksforgeeks.org/deep-learning/loss-functions-in-deep-learning/
+      \endverb
+    \endentry
+    \entry{optim}{online}{}
+      \field{sortinit}{}
+      \field{sortinithash}{495dc9894017a8b12cafa9c619d10c0c}
+      \verb{urlraw}
+      \verb https://www.geeksforgeeks.org/deep-learning/optimization-rule-in-deep-neural-networks/
+      \endverb
+      \verb{url}
+      \verb https://www.geeksforgeeks.org/deep-learning/optimization-rule-in-deep-neural-networks/
+      \endverb
+    \endentry
+    \entry{percp}{online}{}
+      \field{sortinit}{}
+      \field{sortinithash}{495dc9894017a8b12cafa9c619d10c0c}
+      \verb{urlraw}
+      \verb https://cs.wikipedia.org/wiki/Perceptron
+      \endverb
+      \verb{url}
+      \verb https://cs.wikipedia.org/wiki/Perceptron
+      \endverb
+    \endentry
+    \entry{LSTM}{online}{}
+      \field{sortinit}{}
+      \field{sortinithash}{495dc9894017a8b12cafa9c619d10c0c}
+      \verb{urlraw}
+      \verb https://www.geeksforgeeks.org/deep-learning/deep-learning-introduction-to-long-short-term-memory/
+      \endverb
+      \verb{url}
+      \verb https://www.geeksforgeeks.org/deep-learning/deep-learning-introduction-to-long-short-term-memory/
+      \endverb
+    \endentry
+    \entry{dense}{online}{}
+      \field{sortinit}{}
+      \field{sortinithash}{495dc9894017a8b12cafa9c619d10c0c}
+      \verb{urlraw}
+      \verb https://www.geeksforgeeks.org/deep-learning/dense-layer-tf-keras-layers-dense-in-tensorflow/
+      \endverb
+      \verb{url}
+      \verb https://www.geeksforgeeks.org/deep-learning/dense-layer-tf-keras-layers-dense-in-tensorflow/
+      \endverb
+    \endentry
   \enddatalist
 \endrefsection
 \endinput

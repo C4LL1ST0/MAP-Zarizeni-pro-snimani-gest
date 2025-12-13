@@ -5,6 +5,11 @@
  (lambda ()
    (LaTeX-add-bibitems
     "prehled-NN"
-    "af"))
+    "af"
+    "LSTM"
+    "dense"
+    "loss"
+    "optim"
+    "percp"))
  '(or :bibtex :latex))
 

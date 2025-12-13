@@ -4,10 +4,21 @@
 \contentsline {section}{\numberline {2}Neuronová síť}{II}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Poznatky}{II}{subsection.2.1}%
 \contentsline {paragraph}{}{II}{section*.2}%
-\contentsline {subsubsection}{\numberline {2.1.1}Neurony a synapse}{II}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Neurony, synapse a vrstvy}{II}{subsubsection.2.1.1}%
 \contentsline {paragraph}{}{II}{section*.3}%
-\contentsline {subsubsection}{\numberline {2.1.2}Aktivační funkce}{II}{subsubsection.2.1.2}%
-\contentsline {paragraph}{}{II}{section*.4}%
+\contentsline {subsubsection}{\numberline {2.1.2}Aktivační funkce}{III}{subsubsection.2.1.2}%
+\contentsline {paragraph}{}{III}{section*.4}%
 \contentsline {subsubsection}{\numberline {2.1.3}Ztrátová funkce}{III}{subsubsection.2.1.3}%
+\contentsline {paragraph}{}{III}{section*.5}%
 \contentsline {subsubsection}{\numberline {2.1.4}Optimalizační funkce}{III}{subsubsection.2.1.4}%
-\contentsline {section}{\numberline {3}Ovládací program}{III}{section.3}%
+\contentsline {subsubsection}{\numberline {2.1.5}Implementace perceptronu}{III}{subsubsection.2.1.5}%
+\contentsline {paragraph}{}{III}{section*.6}%
+\contentsline {subsection}{\numberline {2.2}Návrh}{V}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Vrstvy a neurony}{V}{subsubsection.2.2.1}%
+\contentsline {paragraph}{}{V}{section*.7}%
+\contentsline {subsubsection}{\numberline {2.2.2}Aktivační funkce}{V}{subsubsection.2.2.2}%
+\contentsline {paragraph}{}{V}{section*.8}%
+\contentsline {subsubsection}{\numberline {2.2.3}Ztrátová funkce}{V}{subsubsection.2.2.3}%
+\contentsline {paragraph}{}{V}{section*.9}%
+\contentsline {section}{\numberline {3}Ovládací program}{VI}{section.3}%
+\contentsline {paragraph}{}{VI}{section*.10}%

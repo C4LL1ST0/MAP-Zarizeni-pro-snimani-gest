@@ -1,10 +1,11 @@
-\documentclass[12pt, a4paper]{article}
+\documentclass[11pt, a4paper]{article}
 \usepackage[utf8]{inputenc}
 
 \usepackage[czech]{babel}
 \usepackage[hyphens]{url}
 \usepackage[colorlinks=true, urlcolor=blue, linkcolor=black, breaklinks, citecolor=black]{hyperref}
 \usepackage{graphicx}
+\usepackage{float}
 
 \graphicspath{ {.//obrazky/} }
 \usepackage[backend=biber]{biblatex}
@@ -17,33 +18,33 @@
 \begin{document}
 
 \begin{titlepage}
-\begin{center}
-\thispagestyle{plain}
-\pagenumbering{gobble}
-\vspace*{1.0cm}
+  \begin{center}
+    \thispagestyle{plain}
+    \pagenumbering{gobble}
+    \vspace*{1.0cm}
 
-\textbf{\LARGE{Výstup 2 maturitní práce}}
-\vspace{2cm}
-\hrule
-\vspace{0.5cm}
-{\Huge \textbf{Zařízení na snímání gest}}
-\vspace{0.5cm}
-\hrule
-\vspace{3cm}
+    \textbf{\LARGE{Výstup 2 maturitní práce}}
+    \vspace{2cm}
+    \hrule
+    \vspace{0.5cm}
+    {\Huge \textbf{Zařízení na snímání gest}}
+    \vspace{0.5cm}
+    \hrule
+    \vspace{3cm}
 
-\begin{minipage}{0.4\textwidth}
-\begin{flushleft}
-  \large{\emph{autor:}\\ Štěpán Bílek}
-\end{flushleft}
-\end{minipage}
-\begin{minipage}{0.4\textwidth}
-\begin{flushright}
-  \large{\emph{konzultant:} \\ Jaroslav Kořínek}
-\end{flushright}
-\end{minipage}
-\vfill
-\large{Školní rok 2025/2026}
-\end{center}
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushleft}
+        \large{\emph{autor:}\\ Štěpán Bílek}
+      \end{flushleft}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushright}
+        \large{\emph{konzultant:} \\ Jaroslav Kořínek}
+      \end{flushright}
+    \end{minipage}
+    \vfill
+    \large{Školní rok 2025/2026}
+  \end{center}
 \end{titlepage}
 
 
@@ -65,7 +66,7 @@ si předávají signály a transformují je pomocí aktivačních funkcí. \cite
 
 Neurony jsou uspořádávány do vrstev. Existuje vrstva vstupní, skrytá (kterých může být více) a výstupní.
 
-\subsubsection{Neurony a synapse}
+\subsubsection{Neurony, synapse a vrstvy}
 \paragraph{}
 Neuron je funkcí, která má libovolný počet vstupů. Tato funkce je ve své podstatě jednoduchá, přijímané vstupy se
 nejdříve vynásobí vahou vázanou k synapsy, ze které přišly, dále se tyto hodnoty sečtou a nakonec je přičten tzv. \uv{bias}.
@@ -73,13 +74,26 @@ nejdříve vynásobí vahou vázanou k synapsy, ze které přišly, dále se tyt
 Synapse je propojení mezi neurony. Ke každé jednotlivé synapsy, kterou neuron má, je přiřazena váha, která začíná
 na náhodném čísle a v procesu učení je upřesnǒvána.
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=12cm]{neuron.png}
+  \caption{neuron}
+\end{figure}
+
 Za předpokladu neuronu s 1 vstupem[x], vahou na synapsy[w], bias[b] a jedním výstupem[y] vypadá jeho oprace po matematické stránce takto:
 \begin{center}
   \begin{equation}
     y = x*w + b
   \end{equation}
 \end{center}
-čili se jedná o přímku.
+\textit{pozn. Jinými slovy se jedná o přímku / lineární funkci.}
+\newline
+\newline
+Počet vrstev a neuronů v každé z nich se stanovuje podle komplexity problému, jež má síť za úkol řešit, a velikosti
+datasetu. Neexistuje obecné pravidlo pro stanovení ideálního počtu vrtev ani neuronů. Důležité je při trénování
+modelu sledovat přesnost a podle toho síť adaptovat. Síť musí být dostatečně složitá, aby dokázala
+produkovat správné výsledky, avšak ne tolik složitá aby si data pouze pamatovala.
+
 
 \subsubsection{Aktivační funkce}
 \paragraph{}
@@ -89,17 +103,83 @@ výstup nelineárním, díky čemuž se síť může naučit komplexnější vzo
 jsou některé funkce lepší, než jiné. Odvíjí se to od faktorů jako příkrost vzrůstu a H\textsubscript{f}.\cite{af}
 
 
-
 \subsubsection{Ztrátová funkce}
+\paragraph{}
+Ztrátová funkce určuje, jak správně model předpovídá/určuje v porovnání s opravdovým výsledkem.
+Čím menší číslo je výstup této funkce, tím přesnější model je. Tato funkce je důležitá
+při učení, kdy právě podle chybovosti algoritmy upravují parametry modelu(váhy, bias).
+Těchto funcí existuje mnoho a každá je lepší na něco jiného\cite{loss}.
 
 \subsubsection{Optimalizační funkce}
+Optimalizační úzce souvisí se ztrátovou funkcí a na základě jejího výstupu
+upravuje parametry modelu, jak již bylo výše zmíněno\cite{optim}.
 
-\section{Ovládací program}
+\subsubsection{Implementace perceptronu}
+\paragraph{}
+Pro lepší pochopení celého tématu jsem implementoval jeden z nejjednoduších modelů neuronové sítě - Perceptron\cite{percp}.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{per_jup_2.png}
+  \caption{implementace perceptronu}
+\end{figure}
+
+\subsection{Návrh}
+\subsubsection{Vrstvy a neurony}
+\paragraph{}
+Neuronová síť bude sestávat ze 4 vrstev, čili bude obsahovat 2 skryté vrstvy.
+
+Vstupní vrstva bude mít 180 vstupů, jelikož data z gyroskopu a akcelerometru jsou složena
+z 6 hodnot, délku gesta budu předběžne počítat 2s a frekvenci sběru 15Hz.
+
+První skrytá vrstva bude LSTM(Long Short-Term Memory)\cite{LSTM}, která se používá především pro
+zpracování sekvenčních dat - zachcené hodnoty z gyroskopu a akcelerometru za určitý čas.
+Měla by dokázat dobře zachtit a rozpoznat průběh gest. Počet neuronů jsem stanovil na 32.
+
+Druhá je vrsva tzv. \uv{hustá}, její charakteristikou je, že všechny neurony jsou připojeny
+ke všem neuronům z vrtvy předchozí\cite{dense}. Počet neuronů bude 16.
+
+Poslední vrstva bude také hustá a bude mít 2 neuron, jelikož nás budou zajímat 2 gesta (doleva, doprava).
+\newline
+
+\textit{pozn. Počet neuronů v jednotlivých vrstvách se pravděpodobně bude v budoucnu během testování sítě měnit,
+  uvedená čísla jsou počáteční.}
 
 
+\subsubsection{Aktivační funkce}
+\paragraph{}
+U první vrstvy bude použit hyperbolický tangens, protože ho LSTM vrstva již vnitřně používá
+a s jinou aktivační funkcí by vrstva nemusela produkovat správné výsledky.
 
+U druhé skryté vrstevy bude použita funkce \textbf{leaky ReLU}, jelikož je jednoduchá na výpočet -
+což bude hrát roli především u tréninku -
+a oproti standartní ReLU nemůže dojít k \uv{zaseknutí} výstupu neuronu na 0.
+
+Na vrstvě výstupní bude použita funkce softmax, která je běžně využívána jedná-li se
+o klasifikaci výstupu do více tříd. Funkce každé třídě přiřadí pravděpodobnost.
+
+
+\subsubsection{Ztrátová funkce}
+\paragraph{}
+Ztrátová funce bude \uv{Categorical Cross-Entropy Loss}, protože slouží pro modely,
+které klasifikují více tříd, jejichž výstupem je pravděpodobnost.
 
 \newpage
-\tableofcontents{}
+\section{Ovládací program}
+\paragraph{}
+Ovládací program pro zařízení na snímání gest má za úkol přjímat a vyhodnocovat data ze
+zařízení na počítači uživatele a dle toho počítač ovládat(posouvat snímky prezentace).
+
+Program je psaný v jazyce Python, kvůli jeho rozsáhlému ekosystému knihoven. Zároveň
+je Python interpretovaným jazykem a tudíž ho lze spustit na jakémkoli operačním systému,
+kde běží Python interpreter, bez větších rozdílů. Pro správu virtuálního prostředí, kde
+jsou knihovny nainstalovány je použit software miniconda. Projekt má strukturu dle standartů
+a je psaný objektově orientovaným způsobem.
+
+Aktuálně program skoro umí přijímat data ze zařízení a ukládat je jako trénovací pro
+budoucí neuronovou síť. Aktuální stav má několik problémů, jimiž se zabývá spolupracovník
+Lukáš Karásek.
+
+\newpage
 \printbibliography
+\tableofcontents{}
 \end{document}
