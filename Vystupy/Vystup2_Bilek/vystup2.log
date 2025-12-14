@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2025.7.31)  13 DEC 2025 15:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2025.7.31)  14 DEC 2025 15:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -560,7 +560,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-<.//obrazky//neuron.png, id=65, 667.49374pt x 330.23375pt>
+<.//obrazky//neuron.png, id=69, 667.49374pt x 330.23375pt>
 File: .//obrazky//neuron.png Graphic file (type png)
 <use .//obrazky//neuron.png>
 Package pdftex.def Info: .//obrazky//neuron.png  used on input line 79.
@@ -572,14 +572,19 @@ s been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.84 \begin{center}
                     <.//obrazky//neuron.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 89--96
+Underfull \hbox (badness 10000) in paragraph at lines 89--92
 
  []
 
-<.//obrazky//per_jup_2.png, id=83, 517.935pt x 803.0pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 89--92
+
+ []
+
+<.//obrazky//per_jup_2.png, id=87, 517.935pt x 803.0pt>
 File: .//obrazky//per_jup_2.png Graphic file (type png)
 <use .//obrazky//per_jup_2.png>
-Package pdftex.def Info: .//obrazky//per_jup_2.png  used on input line 122.
+Package pdftex.def Info: .//obrazky//per_jup_2.png  used on input line 124.
 (pdftex.def)             Requested size: 360.0pt x 558.16304pt.
 [3]
 Overfull \vbox (1.69196pt too high) has occurred while \output is active []
@@ -590,20 +595,20 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.125 
+l.127 
        <.//obrazky//per_jup_2.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 141--143
+Underfull \hbox (badness 10000) in paragraph at lines 143--145
 
  []
 
 
-Underfull \hbox (badness 1038) in paragraph at lines 157--159
+Underfull \hbox (badness 1038) in paragraph at lines 159--161
 []\OT1/cmr/m/n/10.95 Na vrstv^^Te v^^Systupn^^S^^P bude pou^^Tzita funkce softm
 ax, kter^^Sa je b^^Te^^Tzn^^Te
  []
 
 [5] [6]
-Underfull \hbox (badness 1189) in paragraph at lines 184--184
+Underfull \hbox (badness 1189) in paragraph at lines 192--192
 []\OT1/cmr/m/sc/10.95 url\OT1/cmr/m/n/10.95 : [][]$\OT1/cmtt/m/n/10.95 https : 
 / / www . geeksforgeeks . org / deep -[] learning /
  []
@@ -614,16 +619,16 @@ Underfull \hbox (badness 1189) in paragraph at lines 184--184
 
  [7] (./vystup2.aux)
 Package rerunfilecheck Info: File `vystup2.out' has not changed.
-(rerunfilecheck)             Checksum: 02E54DEC9694443839A5A59699EC2324;1838.
+(rerunfilecheck)             Checksum: 214B7EA12517D6E5D705FF2E77EB8B74;2015.
 Package logreq Info: Writing requests to 'vystup2.run.xml'.
 \openout1 = `vystup2.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 17008 strings out of 477219
- 301964 string characters out of 5815552
+ 17013 strings out of 477219
+ 302037 string characters out of 5815552
  1864330 words of memory out of 5000000
- 36999 multiletter control sequences out of 15000+600000
+ 37000 multiletter control sequences out of 15000+600000
  518619 words of font info for 53 fonts, out of 8000000 for 9000
  428 hyphenation exceptions out of 8191
  75i,7n,76p,680b,1681s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -638,10 +643,10 @@ public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
 /amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
 nts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmtt10.pfb>
-Output written on vystup2.pdf (7 pages, 234852 bytes).
+Output written on vystup2.pdf (7 pages, 235187 bytes).
 PDF statistics:
- 218 PDF objects out of 1000 (max. 8388607)
- 181 compressed objects within 2 object streams
- 43 named destinations out of 1000 (max. 500000)
- 115 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 226 PDF objects out of 1000 (max. 8388607)
+ 189 compressed objects within 2 object streams
+ 47 named destinations out of 1000 (max. 500000)
+ 123 words of extra memory for PDF output out of 10000 (max. 10000000)
 

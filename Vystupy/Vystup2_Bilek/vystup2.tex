@@ -89,6 +89,7 @@ Za předpokladu neuronu s 1 vstupem[x], vahou na synapsy[w], bias[b] a jedním v
 \textit{pozn. Jinými slovy se jedná o přímku / lineární funkci.}
 \newline
 \newline
+\paragraph{}
 Počet vrstev a neuronů v každé z nich se stanovuje podle komplexity problému, jež má síť za úkol řešit, a velikosti
 datasetu. Neexistuje obecné pravidlo pro stanovení ideálního počtu vrtev ani neuronů. Důležité je při trénování
 modelu sledovat přesnost a podle toho síť adaptovat. Síť musí být dostatečně složitá, aby dokázala
@@ -111,7 +112,8 @@ při učení, kdy právě podle chybovosti algoritmy upravují parametry modelu(
 Těchto funcí existuje mnoho a každá je lepší na něco jiného\cite{loss}.
 
 \subsubsection{Optimalizační funkce}
-Optimalizační úzce souvisí se ztrátovou funkcí a na základě jejího výstupu
+\paragraph{}
+Optimalizační funkce úzce souvisí se ztrátovou funkcí a na základě jejího výstupu
 upravuje parametry modelu, jak již bylo výše zmíněno\cite{optim}.
 
 \subsubsection{Implementace perceptronu}
@@ -162,6 +164,12 @@ o klasifikaci výstupu do více tříd. Funkce každé třídě přiřadí pravd
 \paragraph{}
 Ztrátová funce bude \uv{Categorical Cross-Entropy Loss}, protože slouží pro modely,
 které klasifikují více tříd, jejichž výstupem je pravděpodobnost.
+
+\subsubsection{Optimalizační funkce}
+\paragraph{}
+Jako optimalizátor bude použit alogoritmus \uv{Adam}, především kvůli jeho univezálnosti,
+dále také nepotřebuje podrobně ladit rychlost učení. Pro síť a dataset této velikosti
+by měl být ideální.
 
 \newpage
 \section{Ovládací program}
