@@ -20,6 +20,8 @@ class Receiver:
             packet: bytes
             addr: Tuple[str, int]
 
+            packet = None
+
             try:
                 packet, addr = self.sock.recvfrom(1024)
             except socket.timeout:
@@ -27,6 +29,7 @@ class Receiver:
                     self.cache.saveCacheAsTrainDataToFile(dataFile, gesture)
                     self.receiving = False
                 #continue
+                return
 
             if packet is not None:
                 if len(packet) != 12:
