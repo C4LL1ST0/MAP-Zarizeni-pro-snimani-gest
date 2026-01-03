@@ -41,6 +41,28 @@ class Cache:
         newTrainData = TrainObject(sensorData=self.data, gesture=gesture)
         trainData.append(newTrainData)
 
+        def pad_to_5_digits(num):
+            if num == 0:
+                return 0
+            sign = -1 if num < 0 else 1
+            num_abs = abs(num)
+
+            num_digits = len(str(num_abs))
+
+            while num_digits < 5:
+                num_abs *= 10
+                num_digits += 1
+            return sign * num_abs
+
+
+        for reading in trainData:
+            for sensor_reading in reading.sensorData:
+                for key in ['AcX', 'AcY', 'AcZ', 'GyX', 'GyY', 'GyZ']:
+                    old_value = getattr(sensor_reading, key)
+                    new_value = pad_to_5_digits(old_value)
+                    setattr(sensor_reading, key, new_value)
+
+
         with open("../data/" + filename, "w") as f:
             json_string = json.dumps([obj.model_dump() for obj in trainData], indent=2)
             f.write(json_string)

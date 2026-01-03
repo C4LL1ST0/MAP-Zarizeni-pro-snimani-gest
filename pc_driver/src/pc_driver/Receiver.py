@@ -16,20 +16,21 @@ class Receiver:
         self.receiving = True
 
     def start_receiving_train_data(self, dataFile: str, gesture: Gesture) -> None:
+        print("DEBUG: exiting receive loop, receiving =", self.receiving)
         while self.receiving:
             packet: bytes
             addr: Tuple[str, int]
 
             packet = None
-
             try:
                 packet, addr = self.sock.recvfrom(1024)
-            except socket.timeout:
+            except (socket.timeout, TimeoutError):
                 if(self.cache.getLength() != 0):
+                    print("before cache")
                     self.cache.saveCacheAsTrainDataToFile(dataFile, gesture)
                     self.receiving = False
                 #continue
-                return
+                break
 
             if packet is not None:
                 if len(packet) != 12:
@@ -76,3 +77,4 @@ class Receiver:
     def end_receiving(self) -> None:
         self.receiving = False
         self.cache.clear()
+    
