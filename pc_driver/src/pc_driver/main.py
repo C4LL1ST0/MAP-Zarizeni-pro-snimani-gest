@@ -5,12 +5,12 @@ print("Starting receiver...")
 receiver = Receiver()
 receiver.receiving = True
 
-dataFile = "nothing.json"
+dataFile = "right.json"
 
 try:
     while True:
         print("Waiting for new data from ESP...")
-        receiver.start_receiving_train_data(dataFile, Gesture.NOTHING)
+        receiver.start_receiving_train_data(dataFile, Gesture.RIGHT)
         print(f"Data saved to {dataFile}. Waiting for next batch...")
         time.sleep(0.1) 
         receiver.receiving = True
