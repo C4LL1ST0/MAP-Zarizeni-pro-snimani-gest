@@ -41,7 +41,7 @@ class Cache:
         newTrainData = TrainObject(sensorData=self.data, gesture=gesture)
         trainData.append(newTrainData)
 
-        def pad_to_5_digits(num):
+        def pad_to_5_digits(num): # hell nah
             if num == 0:
                 return 0
             sign = -1 if num < 0 else 1
