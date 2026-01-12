@@ -4,19 +4,22 @@ from pc_driver.TrainObject import TrainObject
 from pc_driver.Gesture import Gesture
 from pathlib import Path
 import json
+from threading import Lock
 
 class Cache:
     def __init__(self) -> None:
         self.data: List[SensorData] = []
+        self._lock = Lock()
 
     def add(self, sensorData: SensorData) -> None:
-        if(len(self.data) >= 100):
-            self.data.pop(0)
-
-        self.data.append(sensorData)
+        with self._lock:
+            if(len(self.data) >= 100):
+                self.data.pop(0)
+            self.data.append(sensorData)
 
     def getData(self) -> List[SensorData]:
-        return self.data
+        with self._lock:
+            return self.data
 
     def saveCacheAsTrainDataToFile(self, filename: str, gesture: Gesture) -> None:
         myfile = Path("../data/" + filename)
@@ -72,7 +75,9 @@ class Cache:
         print("Received data saved as: " + filename + " gesture: " + str(gesture.value))
 
     def clear(self):
-        self.data = []
+        with self._lock:
+            self.data = []
 
     def getLength(self) -> int:
-        return len(self.data)
+        with self._lock:
+            return len(self.data)

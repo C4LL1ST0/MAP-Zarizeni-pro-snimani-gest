@@ -4,6 +4,8 @@ from typing import Tuple
 from pc_driver.Cache import Cache
 from pc_driver.SensorData import SensorData
 from pc_driver.Gesture import Gesture
+import time
+
 
 class Receiver:
     def __init__(self) -> None:
@@ -14,6 +16,19 @@ class Receiver:
         self.sock.settimeout(3)
         self.cache = Cache()
         self.receiving = True
+
+    def capture_training_data(self, dataFile: str, gesture: Gesture):
+        try:
+            while True:
+                print("Waiting for new data from ESP...")
+                self.start_receiving_train_data(dataFile, gesture)
+                print(f"Data saved to {dataFile}. Waiting for next batch...")
+                time.sleep(0.1)
+                self.receiving = True
+        except KeyboardInterrupt:
+            print("Receiver stopped by user.")
+            print("done.")
+
 
     def start_receiving_train_data(self, dataFile: str, gesture: Gesture) -> None:
         print("DEBUG: exiting receive loop, receiving =", self.receiving)
@@ -48,6 +63,11 @@ class Receiver:
             )
 
             self.cache.add(values)
+
+
+    def start_receiving(self):
+        # potom realna ziva data, musi bezet na vlastnim vlakne
+        pass
 
     def end_receiving(self) -> None:
         self.receiving = False
