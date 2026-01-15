@@ -73,7 +73,11 @@ class Receiver:
 
 
     def start_receiving(self):
-        """Receives sensor data, adds to cache, sends them for evaluation(if correct legth), runs in its own thread"""
+        """Receives sensor data,
+        adds to cache,
+        sends them for evaluation(if correct legth),
+        runs in its own thread"""
+
         self.receiving = True
         self.cache.clear()
 
@@ -90,7 +94,7 @@ class Receiver:
                         self.cache.clear()
                         self.ui.call_from_thread(
                             self.ui.post_message,
-                            InfoMessage("Uncomplete gesture received.")
+                            InfoMessage("Uncomplete gesture received, data cannot be used./n Please try again.")
                         )
 
                         continue
@@ -98,7 +102,11 @@ class Receiver:
                     if(self.cache.getLength() < self.ai_service.gesture_length):
                         # gesto neni cele, ale vice nez polovina
                         # vypadovat do celku, nasledne pouzit
-                        pass
+                        self.ui.call_from_thread(
+                            self.ui.post_message,
+                            InfoMessage("Uncomplete gesture received, padding to compensate.")
+                        )
+                        continue
 
                     if(self.cache.getLength() == self.ai_service.gesture_length):
                         self.ai_service.eval_gesture(self.cache.getData())

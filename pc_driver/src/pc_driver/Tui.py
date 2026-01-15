@@ -1,21 +1,17 @@
-from enum import Enum, auto
+from textual.reactive import reactive
 from textual.app import App, ComposeResult
+from textual.binding import Binding
 from textual.containers import Horizontal, Vertical
-from textual.widgets import Log, Input
+from textual.widgets import Footer, Log, Input
+
+from .Gesture import Gesture
 from .AIService import AIService
 from .Receiver import Receiver
 from .UiMessages import SensorDataMessage, InfoMessage
-from textual.reactive import reactive
 from textual.worker import WorkerFailed
 
 
-class WaitingFor(Enum):
-    NONE = auto()
-    TRAIN_CONFIRM = auto()
-
-
 class Tui(App):
-
     CSS = """
     #data_log_text {
         border: solid yellow;
@@ -23,85 +19,82 @@ class Tui(App):
     #message_text {
         border: solid yellow;
     }
-    #input {
+    #filename_text {
         border: solid yellow;
+        width: 50%;
+    }
+     #gesture_text {
+        border: solid yellow;
+        width: 50%;
+    }
+    #input_div{
+        height: 10%;
     }
     """
 
-    waiting_for = reactive(WaitingFor.NONE)
+    BINDINGS = [
+        Binding("ctrl+s", "start_receiver", "start receiving", show=True, priority=True),
+        Binding("ctrl+t", "train_model", "train model", show=True, priority=True),
+        Binding("ctrl+d", "collect_train_data", "collect train data", show=True, priority=True)
+    ]
+
+    filename = reactive("")
+    gesture = reactive(Gesture.NOTHING)
 
     def compose(self) -> ComposeResult:
         with Horizontal():
             yield Log(id="data_log_text")
-            with Vertical():
+            with Vertical(id="right_side"):
                 yield Log(id="message_text")
-                yield Input(id="input")
+                with Horizontal(id="input_div"):
+                    yield Input(id="filename_text", placeholder="filename")
+                    yield Input(id="gesture_text", placeholder="gesture")
+        yield Footer()
 
     async def on_mount(self) -> None:
-        input_widget = self.query_one("#input", Input)
-        input_widget.disabled = True
-
         self.ai_service = AIService(self)
         self.receiver = Receiver(self, self.ai_service)
 
         try:
             self.ai_service.load_model()
             self.post_message(InfoMessage("Model loaded successfully."))
-            await self.start_application_flow()
 
         except Exception as e:
             self.post_message(InfoMessage(str(e)))
-            self.ask_train_question()
 
+    async def on_input_submitted(self, event: Input.Submitted) -> None:
+        if event.input.id == "filename_text":
+            if event.input.value == "right.json" or event.input.value == "left.json":
+                self.filename = event.input.value
+            else:
+                self.post_message(InfoMessage("Filename should be either right.json or left.json."))
+            event.input.value = ""
 
-    async def start_application_flow(self) -> None:
+        elif event.input.id == "gesture_text":
+            if event.input.value == "left":
+                self.gesture = Gesture.LEFT
+            elif event.input.value == "right":
+                self.gesture = Gesture.RIGHT
+            else:
+                self.post_message(InfoMessage("Gesture must be either right or left."))
+            event.input.value = ""
+
+    def action_start_receiver(self):
         self.post_message(InfoMessage("Starting receiver..."))
         self.receiver.start_receiving()
 
-    def ask_train_question(self) -> None:
-        self.post_message(InfoMessage("Do you want to train a model? (y/n)"))
 
-        self.waiting_for = WaitingFor.TRAIN_CONFIRM
+    def action_train_model(self):
+        self.post_message(InfoMessage("Training model..."))
+        self.ai_service.train_model_other_thread()
 
-        input_widget = self.query_one("#input", Input)
-        input_widget.disabled = False
-        input_widget.focus()
-
-
-    async def on_input_submitted(self, event: Input.Submitted) -> None:
-        text: str = event.value
-        self.post_message(InfoMessage(text))
-        event.input.value = ""
-
-        if self.waiting_for == WaitingFor.TRAIN_CONFIRM:
-            await self.handle_train_confirm(text)
+    def action_collect_train_data(self):
+        if self.filename == "" or self.gesture == Gesture.NOTHING:
+            self.post_message(InfoMessage("Specify valid filename and gesture."))
             return
 
-        self.post_message(InfoMessage(f"Unknown command: {text}"))
-
-    async def handle_train_confirm(self, answer: str) -> None:
-        input_text = self.query_one("#input", Input)
-
-        if answer == "y":
-            self.post_message(InfoMessage("Training model..."))
-            self.waiting_for = WaitingFor.NONE
-            input_text.disabled = True
-
-            self.ai_service.train_model_other_thread()
-
-            await self.start_application_flow()
-
-        elif answer == "n":
-            self.post_message(InfoMessage("Model training skipped."))
-            self.waiting_for = WaitingFor.NONE
-            input_text.disabled = True
-
-            await self.start_application_flow()
-
-        else:
-            self.post_message(InfoMessage("Please answer y or n."))
-            input_text.focus()
-
+        self.post_message(InfoMessage("Colecting train data..."))
+        self.receiver.capture_training_data(self.filename, self.gesture)
 
     async def on_sensor_data_message(self, message: SensorDataMessage) -> None:
         log = self.query_one("#data_log_text", Log)
