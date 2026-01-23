@@ -3,6 +3,10 @@ channels:
   - defaults
 dependencies:
   - numpy
+  - pydantic
   - python=3.13
   - tensorflow
   - matplotlib
+  - textual
+  - textual-dev
+  - scikit-learn

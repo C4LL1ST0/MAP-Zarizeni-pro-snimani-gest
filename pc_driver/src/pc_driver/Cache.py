@@ -1,13 +1,16 @@
 from typing import List
-from pc_driver.SensorData import SensorData
-from pc_driver.TrainObject import TrainObject
-from pc_driver.Gesture import Gesture
+from textual.app import App
+from .UiMessages import InfoMessage
+from .SensorData import SensorData
+from .TrainObject import TrainObject
+from .Gesture import Gesture
 from pathlib import Path
 import json
 from threading import Lock
 
 class Cache:
-    def __init__(self) -> None:
+    def __init__(self, ui) -> None:
+        self.ui: App = ui
         self.data: List[SensorData] = []
         self._lock = Lock()
 
@@ -25,10 +28,10 @@ class Cache:
         myfile = Path("../data/" + filename)
         print("before file check")
         if(not myfile.is_file()):
-            print("File: " + filename + " does not exist.")
+            self.ui.post_message(InfoMessage("File: " + filename + " does not exist."))
             with open("../data/" + filename, "x") as f:
                 f.write("")
-                print("File: " + filename + " created.")
+                self.ui.post_message(InfoMessage("File: " + filename + " created."))
 
         trainFile = open("../data/" + filename, "r")
         trainData: List[TrainObject] = []
@@ -38,7 +41,7 @@ class Cache:
             trainData = [TrainObject(**item) for item in data]
         except Exception as e:
             trainData = []
-            print("Failed to read previous data.", e)
+            self.ui.post_message(InfoMessage(f"Failed to read previous data.\n {e}"))
         finally:
             trainFile.close()
 
@@ -71,7 +74,6 @@ class Cache:
 
         self.clear()
 
-        print("Received data saved as: " + filename + " gesture: " + str(gesture.value))
 
     def clear(self):
         with self._lock:

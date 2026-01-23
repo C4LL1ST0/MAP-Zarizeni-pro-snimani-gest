@@ -1,11 +1,13 @@
-from pc_driver.Receiver import Receiver
-from pc_driver.Gesture import Gesture
+from .Tui import Tui
 
+if __name__ == "__main__":
+    ui = Tui()
+    ui.run()
 
-
-print("Starting receiver...")
-receiver = Receiver()
-
-dataFile = "right.json"
-gesture = Gesture.RIGHT
-receiver.capture_training_data(dataFile, gesture)
+#
+#receiver = Receiver(ui)
+#
+#dataFile = "nothing.json"
+#gesture = Gesture.NOTHING
+#receiver.capture_training_data(dataFile, gesture)
+#
