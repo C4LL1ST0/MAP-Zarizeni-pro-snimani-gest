@@ -14,7 +14,7 @@ from pc_driver.TrainObject import TrainObject
 class AIService:
     def __init__(self) -> None:
         self.model = Sequential([
-            Input(shape=(40, 6)),
+            Input(shape=(45, 6)),
             LSTM(32, activation='tanh'),
             Dense(16),
             LeakyReLU(alpha=0.1),
@@ -43,8 +43,8 @@ class AIService:
         y = [to.gesture for to in trainData]
 
         for seq in X:
-            if len(seq) != 40:
-                raise ValueError("Each gesture must have exactly 40 SensorData objects.")
+            if len(seq) != 45:
+                raise ValueError("Each gesture must have exactly 45 SensorData objects.")
 
         X = np.array(X, dtype=np.float32)
         y = np.array(y, dtype=np.int32)

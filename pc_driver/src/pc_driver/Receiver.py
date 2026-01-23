@@ -20,14 +20,12 @@ class Receiver:
     def capture_training_data(self, dataFile: str, gesture: Gesture):
         try:
             while True:
-                print("Waiting for new data from ESP...")
                 self.start_receiving_train_data(dataFile, gesture)
                 print(f"Data saved to {dataFile}. Waiting for next batch...")
                 time.sleep(0.1)
                 self.receiving = True
         except KeyboardInterrupt:
             print("Receiver stopped by user.")
-            print("done.")
 
 
     def start_receiving_train_data(self, dataFile: str, gesture: Gesture) -> None:
@@ -44,7 +42,6 @@ class Receiver:
                     print("before cache")
                     self.cache.saveCacheAsTrainDataToFile(dataFile, gesture)
                     self.end_receiving()
-                #continue
                 break
 
             if packet is not None:

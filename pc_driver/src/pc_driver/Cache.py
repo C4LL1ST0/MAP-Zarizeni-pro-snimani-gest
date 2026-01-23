@@ -23,6 +23,7 @@ class Cache:
 
     def saveCacheAsTrainDataToFile(self, filename: str, gesture: Gesture) -> None:
         myfile = Path("../data/" + filename)
+        print("before file check")
         if(not myfile.is_file()):
             print("File: " + filename + " does not exist.")
             with open("../data/" + filename, "x") as f:
@@ -41,30 +42,28 @@ class Cache:
         finally:
             trainFile.close()
 
-        newTrainData = TrainObject(sensorData=self.data, gesture=gesture)
+        
+
+        def pad_gesture(sensor_data):
+            MAX_BLOCKS = 45
+            ZERO_BLOCK = {
+                'AcX': 0,
+                'AcY': 0,
+                'AcZ': 0,
+                'GyX': 0,
+                'GyY': 0,
+                'GyZ': 0
+            }
+            sensor_data = sensor_data[:MAX_BLOCKS]
+            while len(sensor_data) < MAX_BLOCKS:
+                sensor_data.append(ZERO_BLOCK.copy())
+            return sensor_data
+
+        newTrainData = TrainObject(
+            sensorData=pad_gesture(self.data),
+            gesture=gesture
+        )
         trainData.append(newTrainData)
-
-        def pad_to_5_digits(num): # hell nah
-            if num == 0:
-                return 0
-            sign = -1 if num < 0 else 1
-            num_abs = abs(num)
-
-            num_digits = len(str(num_abs))
-
-            while num_digits < 5:
-                num_abs *= 10
-                num_digits += 1
-            return sign * num_abs
-
-
-        for reading in trainData:
-            for sensor_reading in reading.sensorData:
-                for key in ['AcX', 'AcY', 'AcZ', 'GyX', 'GyY', 'GyZ']:
-                    old_value = getattr(sensor_reading, key)
-                    new_value = pad_to_5_digits(old_value)
-                    setattr(sensor_reading, key, new_value)
-
 
         with open("../data/" + filename, "w") as f:
             json_string = json.dumps([obj.model_dump() for obj in trainData], indent=2)
