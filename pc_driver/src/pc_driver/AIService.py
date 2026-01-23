@@ -5,14 +5,21 @@ import numpy as np
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import LSTM, Dense, LeakyReLU, Input
 from tensorflow.keras.optimizers import Adam
-from sklearn.model_selection import train_test_split
+from textual.app import App
+from .UiMessages import InfoMessage
+from .Gesture import Gesture
+from .SensorData import SensorData
 import matplotlib.pyplot as plt
 from tensorflow.keras.utils import to_categorical
-from pc_driver.TrainObject import TrainObject
-
+from .TrainObject import TrainObject
+from sklearn.model_selection import train_test_split
+import threading
 
 class AIService:
-    def __init__(self) -> None:
+    def __init__(self, ui: App) -> None:
+        self.ui: App = ui
+        self.gesture_length = 40
+
         self.model = Sequential([
             Input(shape=(45, 6)),
             LSTM(32, activation='tanh'),
@@ -27,7 +34,7 @@ class AIService:
         )
         self.model.summary()
 
-    def train_model(self):
+    def __train_model(self):
         trainData: List[TrainObject] = []
 
         for filename in glob.glob("../data/*.json"):
@@ -43,8 +50,8 @@ class AIService:
         y = [to.gesture for to in trainData]
 
         for seq in X:
-            if len(seq) != 45:
-                raise ValueError("Each gesture must have exactly 45 SensorData objects.")
+            if len(seq) != self.gesture_length:
+                raise ValueError(f"Each gesture must have exactly {self.gesture_length} SensorData objects.")
 
         X = np.array(X, dtype=np.float32)
         y = np.array(y, dtype=np.int32)
@@ -70,21 +77,35 @@ class AIService:
         )
 
 
+        model_num = len(glob.glob("../models/*.h5")) + 1
+
         plt.plot(history.history['accuracy'], label='train acc')
         plt.plot(history.history['val_accuracy'], label='val acc')
         plt.xlabel('Epoch')
         plt.ylabel('Accuracy')
         plt.legend()
-        plt.show()
+        plt.savefig(f"../figs/model_num_{model_num}")
+        plt.close()
 
-
-        model_num = len(glob.glob("../models/*.h5")) + 1
         self.model.save(f"../models/model_num_{model_num}.h5")
-        print(f"Model saved as: ../models/model_num_{model_num}.h5")
+        self.ui.post_message(InfoMessage("Model trained successfully."))
+        self.ui.post_message(InfoMessage(f"Model saved as: ../models/model_num_{model_num}.h5"))
+    
+    def train_model_other_thread(self):
+        def tr_bulletproof():
+            try:
+                self.__train_model()
+            except Exception as e:
+                self.ui.call_from_thread(self.ui.post_message, InfoMessage(e.__str__()))
+
+        threading.Thread(target=tr_bulletproof, daemon=True).start()
 
     def load_model(self):
         model_names = glob.glob("../models/*.h5")
         if len(model_names) < 1:
             raise Exception("No models to load.")
         self.model = load_model(model_names[-1])
-        print(f"Model loaded: {model_names[-1]}")
+        self.ui.post_message(InfoMessage(f"Model: {model_names[-1]} loaded."))
+
+    def eval_gesture(self, sensor_data: List[SensorData]) -> Gesture:
+        pass

@@ -40,7 +40,7 @@ void setup() {
 void loop() {
   digitalWrite(1, transmitting ? HIGH : LOW);
 
-  if(millis() - transmitionStartedAt > 4000){
+  if(millis() - transmitionStartedAt > 1000){
     transmitting = false;
   }
 
@@ -79,7 +79,7 @@ void loop() {
   Serial.println(values[5]);
 
 
-  if(millis() - lastTransmissionAt >= 100){
+  if(millis() - lastTransmissionAt >= 20){
     if(transmitting){
       udp.beginPacket("192.168.4.2", udpPort);
       udp.write((uint8_t*)values, sizeof(values));
