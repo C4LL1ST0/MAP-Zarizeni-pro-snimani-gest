@@ -22,17 +22,19 @@ class Receiver:
         self.sock.settimeout(3)
         self.cache: Cache = Cache(self.ui)
         self.receiving = True
-
-    def capture_training_data(self, dataFile: str, gesture: Gesture):
-        self.ui.post_message(InfoMessage("Training data capturing started."))
-        try:
-            while True:
-                self.start_receiving_train_data(dataFile, gesture)
-                time.sleep(0.1)
-                self.receiving = True
-        except KeyboardInterrupt:
-            self.ui.post_message(InfoMessage("Receiver stopped by user."))
-
+    def capture_data_thread(self, dataFile: str, gesture: Gesture):
+        self.ui.post_message(InfoMessage("Training data capturing started.")) #delete later
+        def capture_training_data():
+            self.ui.post_message(InfoMessage("Training data capturing started. 2")) #delete the '2' later
+            try:
+                while True:
+                    self.start_receiving_train_data(dataFile, gesture)
+                    time.sleep(0.1)
+                    self.receiving = True
+            except KeyboardInterrupt:
+                self.ui.post_message(InfoMessage("Receiver stopped by user."))
+        threading.Thread(target=capture_training_data, daemon=True).start()
+        self.ui.post_message(InfoMessage("thread started."))  #delete later
 
     def start_receiving_train_data(self, dataFile: str, gesture: Gesture) -> None:
         self.receiving = True

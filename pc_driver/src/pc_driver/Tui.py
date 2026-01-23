@@ -94,7 +94,7 @@ class Tui(App):
             return
 
         self.post_message(InfoMessage("Colecting train data..."))
-        self.receiver.capture_training_data(self.filename, self.gesture)
+        self.receiver.capture_data_thread(self.filename, self.gesture)
 
     async def on_sensor_data_message(self, message: SensorDataMessage) -> None:
         log = self.query_one("#data_log_text", Log)
