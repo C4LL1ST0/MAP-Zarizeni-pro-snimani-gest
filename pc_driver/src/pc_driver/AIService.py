@@ -13,17 +13,19 @@ import matplotlib.pyplot as plt
 from tensorflow.keras.utils import to_categorical
 from .TrainObject import TrainObject
 from sklearn.model_selection import train_test_split
+from sklearn.utils import shuffle
 import threading
 
 class AIService:
     def __init__(self, ui: App) -> None:
         self.ui: App = ui
-        self.gesture_length = 40
+        self.gesture_length = 45
+        self.norm
 
         self.model = Sequential([
             Input(shape=(45, 6)),
-            LSTM(32, activation='tanh'),
-            Dense(16),
+            LSTM(16, activation='tanh'),
+            Dense(8),
             LeakyReLU(alpha=0.1),
             Dense(2, activation='softmax')
         ])
@@ -59,20 +61,22 @@ class AIService:
         # One-hot encoding
         y = to_categorical(y, num_classes=2)
 
-        # Normalizace dat na [-1,1]
-        X = X / np.max(np.abs(X), axis=(0, 1))
-
+        X, y = shuffle(X, y, random_state=42)
 
         X_train, X_val, y_train, y_val = train_test_split(
             X, y, test_size=0.2, random_state=42
         )
+
+        self.norm = np.max(np.abs(X_train), axis=(0, 1))
+        X_train = X_train / self.norm
+        X_val = X_val / self.norm
 
 
         history = self.model.fit(
             X_train,
             y_train,
             validation_data=(X_val, y_val),
-            epochs=50,
+            epochs=10,
             batch_size=16
         )
 
@@ -87,6 +91,7 @@ class AIService:
         plt.savefig(f"../figs/model_num_{model_num}")
         plt.close()
 
+        np.save(f"../models/norm_num_{model_num}.npy", self.norm)
         self.model.save(f"../models/model_num_{model_num}.h5")
         self.ui.post_message(InfoMessage("Model trained successfully."))
         self.ui.post_message(InfoMessage(f"Model saved as: ../models/model_num_{model_num}.h5"))
@@ -102,10 +107,27 @@ class AIService:
 
     def load_model(self):
         model_names = glob.glob("../models/*.h5")
-        if len(model_names) < 1:
+        norm_names = glob.glob("../models/*.npy")
+        if len(model_names) < 1 or len(norm_names) < 1:
             raise Exception("No models to load.")
         self.model = load_model(model_names[-1])
+        self.norm = np.load(norm_names[-1])
         self.ui.post_message(InfoMessage(f"Model: {model_names[-1]} loaded."))
 
     def eval_gesture(self, sensor_data: List[SensorData]) -> Gesture:
-        pass
+        if(self.model is None or self.norm is None):
+            raise Exception("Cannot eval, no model loaded.")
+
+        X = np.array([sd.to_array() for sd in sensor_data], dtype=np.float32)
+        X = np.expand_dims(X, axis=0)
+        X = X / self.norm
+        probs = self.model.predict(X, verbose=0)[0]
+
+        THRESHOLD = 0.7
+        if np.max(probs) < THRESHOLD:
+            return None
+
+        class_index = int(np.argmax(probs))
+        gesture = Gesture(class_index)
+        #self.ui.post_message(GestureMessage(gesture))
+        return gesture

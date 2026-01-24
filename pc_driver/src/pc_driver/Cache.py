@@ -24,6 +24,25 @@ class Cache:
         with self._lock:
             return self.data
 
+    def get_padded_data(self) -> List[SensorData]:
+        with self._lock:
+            return self.pad_gesture(self.data)
+
+    def pad_gesture(self, sensor_data) -> List[SensorData]:
+        MAX_BLOCKS = 45
+        ZERO_BLOCK = {
+            'AcX': 0,
+            'AcY': 0,
+            'AcZ': 0,
+            'GyX': 0,
+            'GyY': 0,
+            'GyZ': 0
+        }
+        sensor_data = sensor_data[:MAX_BLOCKS]
+        while len(sensor_data) < MAX_BLOCKS:
+            sensor_data.append(ZERO_BLOCK.copy())
+        return sensor_data
+
     def saveCacheAsTrainDataToFile(self, filename: str, gesture: Gesture) -> None:
         myfile = Path("../data/" + filename)
         print("before file check")
@@ -45,25 +64,8 @@ class Cache:
         finally:
             trainFile.close()
 
-        
-
-        def pad_gesture(sensor_data):
-            MAX_BLOCKS = 45
-            ZERO_BLOCK = {
-                'AcX': 0,
-                'AcY': 0,
-                'AcZ': 0,
-                'GyX': 0,
-                'GyY': 0,
-                'GyZ': 0
-            }
-            sensor_data = sensor_data[:MAX_BLOCKS]
-            while len(sensor_data) < MAX_BLOCKS:
-                sensor_data.append(ZERO_BLOCK.copy())
-            return sensor_data
-
         newTrainData = TrainObject(
-            sensorData=pad_gesture(self.data),
+            sensorData=self.pad_gesture(self.data),
             gesture=gesture
         )
         trainData.append(newTrainData)

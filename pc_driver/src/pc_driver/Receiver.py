@@ -97,7 +97,6 @@ class Receiver:
                             self.ui.post_message,
                             InfoMessage("Uncomplete gesture received, data cannot be used./n Please try again.")
                         )
-
                         continue
 
                     if(self.cache.getLength() < self.ai_service.gesture_length):
@@ -107,6 +106,8 @@ class Receiver:
                             self.ui.post_message,
                             InfoMessage("Uncomplete gesture received, padding to compensate.")
                         )
+                        self.ai_service.eval_gesture(self.cache.get_padded_data())
+                        self.cache.clear()
                         continue
 
                     if(self.cache.getLength() == self.ai_service.gesture_length):

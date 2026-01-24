@@ -7,7 +7,7 @@ from textual.widgets import Footer, Log, Input
 from .Gesture import Gesture
 from .AIService import AIService
 from .Receiver import Receiver
-from .UiMessages import SensorDataMessage, InfoMessage
+from .UiMessages import GestureMessage, SensorDataMessage, InfoMessage
 from textual.worker import WorkerFailed
 
 
@@ -108,6 +108,10 @@ class Tui(App):
     async def on_info_message(self, message: InfoMessage) -> None:
         log = self.query_one("#message_text", Log)
         log.write(message.msg + "\n")
+
+    async def on_gesture_message(self, message: GestureMessage):
+        #tady se budou volat sipky
+        pass
 
     async def on_worker_failed(self, event: WorkerFailed):
         self.post_message(InfoMessage(str(event.error)))
