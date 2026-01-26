@@ -106,7 +106,12 @@ class Receiver:
                             self.ui.post_message,
                             InfoMessage("Uncomplete gesture received, padding to compensate.")
                         )
+                        
                         self.ai_service.eval_gesture(self.cache.get_padded_data())
+                        self.ui.call_from_thread(
+                            self.ui.post_message,
+                            InfoMessage("after eval")
+                        )
                         self.cache.clear()
                         continue
 

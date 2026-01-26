@@ -19,9 +19,9 @@ import threading
 class AIService:
     def __init__(self, ui: App) -> None:
         self.ui: App = ui
+        self.norm = None
         self.gesture_length = 45
-        self.norm
-
+        
         self.model = Sequential([
             Input(shape=(45, 6)),
             LSTM(16, activation='tanh'),
@@ -116,6 +116,7 @@ class AIService:
 
     def eval_gesture(self, sensor_data: List[SensorData]) -> Gesture:
         if(self.model is None or self.norm is None):
+            self.ui.post_message(InfoMessage("no model"))
             raise Exception("Cannot eval, no model loaded.")
 
         X = np.array([sd.to_array() for sd in sensor_data], dtype=np.float32)
@@ -125,9 +126,11 @@ class AIService:
 
         THRESHOLD = 0.7
         if np.max(probs) < THRESHOLD:
+            self.ui.post_message(InfoMessage("Gesture not recognized."))
             return None
 
         class_index = int(np.argmax(probs))
         gesture = Gesture(class_index)
+        self.ui.post_message(InfoMessage(f"Gesture detected: {gesture.name} with probability {probs[class_index]:.2f}"))
         #self.ui.post_message(GestureMessage(gesture))
         return gesture
