@@ -11,3 +11,4 @@ class SensorData(BaseModel):
 
     def to_array(self) -> List[int]:
         return [self.AcX, self.AcY, self.AcZ, self.GyX, self.GyY, self.GyZ]
+    

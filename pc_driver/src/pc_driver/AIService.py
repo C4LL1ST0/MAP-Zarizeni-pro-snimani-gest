@@ -6,7 +6,7 @@ from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import LSTM, Dense, LeakyReLU, Input
 from tensorflow.keras.optimizers import Adam
 from textual.app import App
-from .UiMessages import InfoMessage
+from .UiMessages import InfoMessage, GestureMessage
 from .Gesture import Gesture
 from .SensorData import SensorData
 import matplotlib.pyplot as plt
@@ -118,19 +118,27 @@ class AIService:
         if(self.model is None or self.norm is None):
             self.ui.post_message(InfoMessage("no model"))
             raise Exception("Cannot eval, no model loaded.")
-
         X = np.array([sd.to_array() for sd in sensor_data], dtype=np.float32)
         X = np.expand_dims(X, axis=0)
         X = X / self.norm
         probs = self.model.predict(X, verbose=0)[0]
-
+        self.ui.call_from_thread(
+                           self.ui.post_message,
+                            InfoMessage(f"{probs}")
+                        )
         THRESHOLD = 0.7
         if np.max(probs) < THRESHOLD:
-            self.ui.post_message(InfoMessage("Gesture not recognized."))
+            self.ui.call_from_thread(
+                            self.ui.post_message,
+                            InfoMessage("nuh uh")
+                        )
             return None
 
         class_index = int(np.argmax(probs))
         gesture = Gesture(class_index)
-        self.ui.post_message(InfoMessage(f"Gesture detected: {gesture.name} with probability {probs[class_index]:.2f}"))
-        #self.ui.post_message(GestureMessage(gesture))
+        self.ui.call_from_thread(
+                            self.ui.post_message,
+                            InfoMessage("done")
+                        )
+        self.ui.post_message(GestureMessage(gesture))
         return gesture

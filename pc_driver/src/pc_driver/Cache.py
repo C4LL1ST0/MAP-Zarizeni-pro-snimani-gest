@@ -30,14 +30,14 @@ class Cache:
 
     def pad_gesture(self, sensor_data) -> List[SensorData]:
         MAX_BLOCKS = 45
-        ZERO_BLOCK = {
-            'AcX': 0,
-            'AcY': 0,
-            'AcZ': 0,
-            'GyX': 0,
-            'GyY': 0,
-            'GyZ': 0
-        }
+        ZERO_BLOCK: SensorData = SensorData(
+            AcX=0,
+            AcY=0,
+            AcZ=0,
+            GyX=0,
+            GyY=0,
+            GyZ=0
+        )
         sensor_data = sensor_data[:MAX_BLOCKS]
         while len(sensor_data) < MAX_BLOCKS:
             sensor_data.append(ZERO_BLOCK.copy())

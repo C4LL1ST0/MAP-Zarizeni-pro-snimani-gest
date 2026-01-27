@@ -91,6 +91,7 @@ class Receiver:
                 try:
                     packet, addr = self.sock.recvfrom(1024)
                 except (socket.timeout, TimeoutError):
+                   
                     if(self.cache.getLength() < self.ai_service.gesture_length/2):
                         self.cache.clear()
                         self.ui.call_from_thread(
@@ -106,7 +107,7 @@ class Receiver:
                             self.ui.post_message,
                             InfoMessage("Uncomplete gesture received, padding to compensate.")
                         )
-                        
+                        x = self.cache.get_padded_data()
                         self.ai_service.eval_gesture(self.cache.get_padded_data())
                         self.ui.call_from_thread(
                             self.ui.post_message,
@@ -143,6 +144,10 @@ class Receiver:
                 self.ui.post_message(SensorDataMessage(values))
 
                 if(self.cache.getLength() == self.ai_service.gesture_length):
+                    self.ui.call_from_thread(
+                            self.ui.post_message,
+                            InfoMessage("before eval")
+                        )
                     self.ai_service.eval_gesture(self.cache.getData())
                     self.cache.clear()
                     continue

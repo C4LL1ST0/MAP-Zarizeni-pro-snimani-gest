@@ -110,8 +110,9 @@ class Tui(App):
         log.write(message.msg + "\n")
 
     async def on_gesture_message(self, message: GestureMessage):
-        #tady se budou volat sipky
-        pass
+        log = self.query_one("#message_text", Log)
+        log.write("ano" if message.gesture == Gesture.RIGHT else "ne")
+#wtffffffffffffffffffffffffffffffffff
 
     async def on_worker_failed(self, event: WorkerFailed):
         self.post_message(InfoMessage(str(event.error)))
