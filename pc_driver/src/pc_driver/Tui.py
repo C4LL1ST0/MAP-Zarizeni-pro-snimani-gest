@@ -89,7 +89,7 @@ class Tui(App):
         self.ai_service.train_model_other_thread()
 
     def action_collect_train_data(self):
-        if self.filename == "" or self.gesture == Gesture.NOTHING:
+        if self.filename == "" or self.gesture is None:
             self.post_message(InfoMessage("Specify valid filename and gesture."))
             return
 
