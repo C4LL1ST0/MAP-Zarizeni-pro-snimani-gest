@@ -9,6 +9,7 @@ from textual.app import App
 from .UiMessages import InfoMessage, GestureMessage
 from .Gesture import Gesture
 from .SensorData import SensorData
+from .PptControler import press_key
 import matplotlib.pyplot as plt
 from tensorflow.keras.utils import to_categorical
 from .TrainObject import TrainObject
@@ -132,4 +133,5 @@ class AIService:
 
         class_index = int(np.argmax(probs))
         gesture = Gesture(class_index)
+        press_key(gesture)
         self.ui.post_message(GestureMessage(gesture))
