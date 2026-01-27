@@ -59,7 +59,6 @@ class AIService:
         X = np.array(X, dtype=np.float32)
         y = np.array(y, dtype=np.int32)
 
-        # One-hot encoding
         y = to_categorical(y, num_classes=2)
 
         X, y = shuffle(X, y, random_state=42)
@@ -72,7 +71,6 @@ class AIService:
         X_train = X_train / self.norm
         X_val = X_val / self.norm
 
-
         history = self.model.fit(
             X_train,
             y_train,
@@ -80,7 +78,6 @@ class AIService:
             epochs=10,
             batch_size=16
         )
-
 
         model_num = len(glob.glob("../models/*.h5")) + 1
 
@@ -117,7 +114,6 @@ class AIService:
 
     def eval_gesture(self, sensor_data: List[SensorData]) -> None:
         if(self.model is None or self.norm is None):
-            self.ui.post_message(InfoMessage("no model"))
             raise Exception("Cannot eval, no model loaded.")
 
         X = np.array([sd.to_array() for sd in sensor_data], dtype=np.float32)

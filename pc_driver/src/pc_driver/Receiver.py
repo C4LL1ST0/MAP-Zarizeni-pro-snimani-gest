@@ -23,9 +23,7 @@ class Receiver:
         self.cache: Cache = Cache(self.ui)
         self.receiving = True
     def capture_data_thread(self, dataFile: str, gesture: Gesture):
-        self.ui.post_message(InfoMessage("Training data capturing started.")) #delete later
         def capture_training_data():
-            self.ui.post_message(InfoMessage("Training data capturing started. 2")) #delete the '2' later
             try:
                 while True:
                     self.start_receiving_train_data(dataFile, gesture)
@@ -34,7 +32,6 @@ class Receiver:
             except KeyboardInterrupt:
                 self.ui.post_message(InfoMessage("Receiver stopped by user."))
         threading.Thread(target=capture_training_data, daemon=True).start()
-        self.ui.post_message(InfoMessage("thread started."))  #delete later
 
     def start_receiving_train_data(self, dataFile: str, gesture: Gesture) -> None:
         self.receiving = True
@@ -49,7 +46,7 @@ class Receiver:
                 packet, addr = self.sock.recvfrom(1024)
             except (socket.timeout, TimeoutError):
                 if(self.cache.getLength() != 0):
-                    self.cache.saveCacheAsTrainDataToFile(dataFile, gesture) # store all previously received data
+                    self.cache.saveCacheAsTrainDataToFile(dataFile, gesture)
                     self.ui.post_message(InfoMessage(f"Data saved to file: {dataFile} gesture: {gesture}"))
                     self.end_receiving()
                 break

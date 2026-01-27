@@ -45,7 +45,6 @@ class Cache:
 
     def saveCacheAsTrainDataToFile(self, filename: str, gesture: Gesture) -> None:
         myfile = Path("../data/" + filename)
-        print("before file check")
         if(not myfile.is_file()):
             self.ui.post_message(InfoMessage("File: " + filename + " does not exist."))
             with open("../data/" + filename, "x") as f:
@@ -56,7 +55,7 @@ class Cache:
         trainData: List[TrainObject] = []
 
         try:
-            data = json.load(trainFile)   # -> Python list/dict
+            data = json.load(trainFile)
             trainData = [TrainObject(**item) for item in data]
         except Exception as e:
             trainData = []
