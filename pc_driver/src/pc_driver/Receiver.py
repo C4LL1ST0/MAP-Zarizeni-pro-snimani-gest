@@ -19,7 +19,7 @@ class Receiver:
         self.port: int = 1234
         self.sock: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind((self.ip, self.port))
-        self.sock.settimeout(3)
+        self.sock.settimeout(1)
         self.cache: Cache = Cache(self.ui)
         self.receiving = True
     def capture_data_thread(self, dataFile: str, gesture: Gesture):
@@ -91,7 +91,10 @@ class Receiver:
                 try:
                     packet, addr = self.sock.recvfrom(1024)
                 except (socket.timeout, TimeoutError):
-                   
+
+                    if self.cache.getLength() == 0:
+                        continue
+
                     if(self.cache.getLength() < self.ai_service.gesture_length/2):
                         self.cache.clear()
                         self.ui.call_from_thread(
@@ -101,18 +104,12 @@ class Receiver:
                         continue
 
                     if(self.cache.getLength() < self.ai_service.gesture_length):
-                        # gesto neni cele, ale vice nez polovina
-                        # vypadovat do celku, nasledne pouzit
                         self.ui.call_from_thread(
                             self.ui.post_message,
                             InfoMessage("Uncomplete gesture received, padding to compensate.")
                         )
                         x = self.cache.get_padded_data()
                         self.ai_service.eval_gesture(self.cache.get_padded_data())
-                        self.ui.call_from_thread(
-                            self.ui.post_message,
-                            InfoMessage("after eval")
-                        )
                         self.cache.clear()
                         continue
 
@@ -144,10 +141,6 @@ class Receiver:
                 self.ui.post_message(SensorDataMessage(values))
 
                 if(self.cache.getLength() == self.ai_service.gesture_length):
-                    self.ui.call_from_thread(
-                            self.ui.post_message,
-                            InfoMessage("before eval")
-                        )
                     self.ai_service.eval_gesture(self.cache.getData())
                     self.cache.clear()
                     continue

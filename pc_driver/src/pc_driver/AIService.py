@@ -114,31 +114,20 @@ class AIService:
         self.norm = np.load(norm_names[-1])
         self.ui.post_message(InfoMessage(f"Model: {model_names[-1]} loaded."))
 
-    def eval_gesture(self, sensor_data: List[SensorData]) -> Gesture:
+    def eval_gesture(self, sensor_data: List[SensorData]) -> None:
         if(self.model is None or self.norm is None):
             self.ui.post_message(InfoMessage("no model"))
             raise Exception("Cannot eval, no model loaded.")
+
         X = np.array([sd.to_array() for sd in sensor_data], dtype=np.float32)
         X = np.expand_dims(X, axis=0)
         X = X / self.norm
         probs = self.model.predict(X, verbose=0)[0]
-        self.ui.call_from_thread(
-                           self.ui.post_message,
-                            InfoMessage(f"{probs}")
-                        )
-        THRESHOLD = 0.7
+
+        THRESHOLD = 0.8
         if np.max(probs) < THRESHOLD:
-            self.ui.call_from_thread(
-                            self.ui.post_message,
-                            InfoMessage("nuh uh")
-                        )
-            return None
+            return
 
         class_index = int(np.argmax(probs))
         gesture = Gesture(class_index)
-        self.ui.call_from_thread(
-                            self.ui.post_message,
-                            InfoMessage("done")
-                        )
         self.ui.post_message(GestureMessage(gesture))
-        return gesture

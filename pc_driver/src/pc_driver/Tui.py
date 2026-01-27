@@ -111,8 +111,7 @@ class Tui(App):
 
     async def on_gesture_message(self, message: GestureMessage):
         log = self.query_one("#message_text", Log)
-        log.write("ano" if message.gesture == Gesture.RIGHT else "ne")
-#wtffffffffffffffffffffffffffffffffff
+        log.write(str(message.gesture) + "\n")
 
     async def on_worker_failed(self, event: WorkerFailed):
         self.post_message(InfoMessage(str(event.error)))
