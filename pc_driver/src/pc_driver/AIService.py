@@ -124,6 +124,8 @@ class AIService:
         X = X / self.norm
         probs = self.model.predict(X, verbose=0)[0]
 
+        self.ui.post_message(InfoMessage(f"{probs}"))
+
         THRESHOLD = 0.8
         if np.max(probs) < THRESHOLD:
             return

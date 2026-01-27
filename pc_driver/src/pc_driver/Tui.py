@@ -39,7 +39,7 @@ class Tui(App):
     ]
 
     filename = reactive("")
-    gesture = reactive(Gesture.NOTHING)
+    gesture = reactive(None)
 
     def compose(self) -> ComposeResult:
         with Horizontal():
