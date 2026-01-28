@@ -10,3 +10,4 @@ dependencies:
   - textual
   - textual-dev
   - scikit-learn
+  - keyboard
