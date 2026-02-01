@@ -2,6 +2,9 @@ pc_driver/**/__pycache__/
 pc_driver/data/*
 pc_driver/figs/*
 
+utils/cropper/[Bb]in/
+utils/cropper/[Oo]bj/
+
 *.el
 
 *.bib
