@@ -21,10 +21,10 @@ class AIService:
     def __init__(self, ui: App) -> None:
         self.ui: App = ui
         self.norm = None
-        self.gesture_length = 45
+        self.gesture_length = 38
         
         self.model = Sequential([
-            Input(shape=(45, 6)),
+            Input(shape=(self.gesture_length, 6)),
             LSTM(16, activation='tanh'),
             Dense(8),
             LeakyReLU(alpha=0.1),
