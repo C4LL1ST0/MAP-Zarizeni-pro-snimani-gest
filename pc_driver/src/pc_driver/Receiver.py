@@ -105,7 +105,6 @@ class Receiver:
                             self.ui.post_message,
                             InfoMessage("Uncomplete gesture received, padding to compensate.")
                         )
-                        x = self.cache.get_padded_data()
                         self.ai_service.eval_gesture(self.cache.get_padded_data())
                         self.cache.clear()
                         continue

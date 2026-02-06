@@ -21,7 +21,7 @@ class AIService:
     def __init__(self, ui: App) -> None:
         self.ui: App = ui
         self.norm = None
-        self.gesture_length = 38
+        self.gesture_length = 45
         
         self.model = Sequential([
             Input(shape=(self.gesture_length, 6)),
@@ -75,7 +75,7 @@ class AIService:
             X_train,
             y_train,
             validation_data=(X_val, y_val),
-            epochs=10,
+            epochs=12,
             batch_size=16
         )
 

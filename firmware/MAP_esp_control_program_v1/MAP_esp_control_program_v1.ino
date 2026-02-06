@@ -4,7 +4,7 @@
 
 const int MPU_addr=0x68;
 
-int16_t AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
+int16_t Tmp;
 int16_t values[6];
 
 const char* ssid = "ESP_AP";
@@ -18,8 +18,6 @@ int transmitionStartedAt = 0;
 int lastTransmissionAt = 0;
 
 void setup() {
-  Serial.begin(115200);
-
   Wire.begin(8, 9);
   Wire.beginTransmission(MPU_addr);
   Wire.write(0x6B);
@@ -53,30 +51,14 @@ void loop() {
   Wire.write(0x3B);
   Wire.endTransmission(false);
   Wire.requestFrom(MPU_addr,14,true);
-  AcX=Wire.read()<<8|Wire.read();    
-  AcY=Wire.read()<<8|Wire.read();
-  AcZ=Wire.read()<<8|Wire.read();
+
+  values[0] = Wire.read()<<8|Wire.read();    
+  values[1] = Wire.read()<<8|Wire.read();
+  values[2] = Wire.read()<<8|Wire.read();
   Tmp=Wire.read()<<8|Wire.read();
-  GyX=Wire.read()<<8|Wire.read();
-  GyY=Wire.read()<<8|Wire.read();
-  GyZ=Wire.read()<<8|Wire.read();
-
-  values[0] = AcX;
-  values[1] = AcY;
-  values[2] = AcZ;
-  values[3] = GyX;
-  values[4] = GyY;
-  values[5] = GyZ;
-
-
-  // serialu se pak zbavit!!
-  Serial.print(values[0]); Serial.print(",");
-  Serial.print(values[1]); Serial.print(",");
-  Serial.print(values[2]); Serial.print(",");
-
-  Serial.print(values[3]); Serial.print(",");
-  Serial.print(values[4]); Serial.print(",");
-  Serial.println(values[5]);
+  values[3]=Wire.read()<<8|Wire.read();
+  values[4]=Wire.read()<<8|Wire.read();
+  values[5]=Wire.read()<<8|Wire.read();
 
 
   if(millis() - lastTransmissionAt >= 20){

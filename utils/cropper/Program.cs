@@ -5,7 +5,7 @@ record struct TrainObject(SensorData[] sensorData, int gesture);
 
 class Program{
     public static void Main(){
-        const string FILENAME = "right.json";
+        const string FILENAME = "left.json";
 
         var json = File.ReadAllText("../../pc_driver/data/" + FILENAME);
         if(json == null) throw new ArgumentNullException("file empty");
@@ -14,7 +14,7 @@ class Program{
             throw new Exception("deserialization failed");
 
         TrainObject[] croppedObjects = tos.Select(to =>
-            new TrainObject(to.sensorData.Take(38).ToArray(), to.gesture)
+            new TrainObject(to.sensorData.Take(45).ToArray(), to.gesture)
         ).ToArray();
 
         var modifiedJson = JsonConvert.SerializeObject(croppedObjects, Formatting.Indented);
