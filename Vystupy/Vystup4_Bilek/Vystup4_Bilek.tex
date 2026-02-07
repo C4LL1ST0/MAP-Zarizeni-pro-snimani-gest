@@ -1,0 +1,122 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{setspace}
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0pt}
+\onehalfspacing
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[hyphens]{url}
+\usepackage[colorlinks=true, urlcolor=blue, linkcolor=black, breaklinks, citecolor=black]{hyperref}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{ {.//obrazky/} }
+\usepackage[backend=biber]{biblatex}
+\addbibresource{citace.bib}
+
+
+\sloppy
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\thispagestyle{plain}
+\pagenumbering{gobble}
+\vspace*{1.0cm}
+
+\textbf{\LARGE{4. Výstup Maturitní práce}}
+\vspace{2cm}
+\hrule
+\vspace{0.5cm}
+{\Huge \textbf{Zařízení na snímání gest}}
+\vspace{0.5cm}
+\hrule
+\vspace{3cm}
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft}
+  \large{\emph{autor:}\\ Štěpán Bílek}
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright}
+  \large{\emph{konzultant:} \\ Jaroslav Kořínek}
+\end{flushright}
+\end{minipage}
+\vfill
+\large{Školní rok 2025/2026}
+\end{center}
+\end{titlepage}
+
+\pagenumbering{Roman}
+\setcounter{page}{2}
+
+
+
+\section{Úvod}
+\paragraph{}
+Cílem 4. výstupu maturitní práce bylo zkompletovat a otestovat vše tzn. senzorické zařízení, firmware, ovládací program jakožto celek.
+Zárověn bylo nutno vyřešit napájení z baterie, nýbž dříve navržené řešení nebylo funkční.
+
+\section{Napájení}
+\paragraph{}
+Původním plánem bylo napájet zařízení ze 3 knoflíkových bateríí LR44 řazených v sérii, jelikož senzorické zařízení potřebuje 3,3V - 6,3V.
+Toto řešení jsme chtěli vyzkoušet kvůli tomu, že tyto baterie jsou velmi malé a jednoduché na použití, také by při vybití šly snadno vyměnit.
+Při testování jsem ale zjistil, že nedokáží poskytovat dostatečný proud pro napájení a tudíž jsou nevhodné.
+
+Se spolupracovníkem LK jsme vybrali a koupili nový Li-po článek, který jsem k zařízení připájel. Zároveň jsme museli koupit
+i nabíječku.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=7cm]{zarizeni.jpg}
+  \caption{zařízení s akumulátorem}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=7cm]{nabijecka.jpg}
+  \caption{nabíječka}
+\end{figure}
+
+Nyní je zařízení napájené z baterie plně funkční, pouze na nabíječku bude potřeba vytisknout krabičku, jejíž model jsem už udělal.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=7cm]{krabicka.png}
+  \caption{model pouzdra nabíječky}
+\end{figure}
+
+
+\section{Testování}
+\paragraph{}
+Při prvním testování vyhodnocení gest modelem bylo zjištěno, že model vše vyhodnotí jako \uv{doprava}, po
+přůzkumu s pomocí ChatGPT\cite{ChatGPT} jsem zjistil, kde by mohl být problém. Po přečtení dokumentace \cite{tentorflow}
+jsem ho opravil. Naštěstí se jednalo pouze o špatné použití funkce knihovny pro rozřazení trénovacích dat.
+
+Když jsem ale rozpoznávání gest zkoušel i po té, nebylo zrovna spolehlivé, alespoň ne na mně. Jelikož všechna tránovací data
+doposud nahrával LK, rozpoznávání u něj fungovalo bezchybně. Musel jsem tedy rozšířit trénovací data o gesta i já. Dohromady
+náš dataset nyní čítá 600 gest od každého 300, vždy 150 \uv{doleva} a 150 \uv{doprava}.
+
+\section{Optimalizace firmwaru}
+\paragraph{}
+Aby model UI mohl gesto správně vyhodnotit potřebuje k tomu dostatek dat ze senzoru. Délku gesta jsme stanovili na 1s a
+zařízení se snažilo data odesílat 50x. V průměru ovládací program obdrzěl ale pouze 38 \uv{snímků}/objektů za sekundu, čili jedno gesto.
+Po optimalizaci firmwaru, která zahrnovala odmazání přebytečných proměnných a odstranění testovací serial komunikace, zařízení
+konzistentně odesílá 48 objektů/s. Je důležité zmínit, že s délkou gesta se mění počet vstupů neuronové sítě; nyní 1s * 48objektů
+* 6 hodnot(v každém objektu).
+
+Aby se všechna trénovací data nemusela nahrávat znovu, udělal jsem program, který předešlá data zkrátí.
+
+
+\vspace{1cm}
+\noindent
+\textbf{poznámka: Veškeré soubory k projektu jsou veřejně k dispozici na platformě github \cite{github}.}
+
+
+\newpage
+\printbibliography
+\tableofcontents
+
+\end{document}

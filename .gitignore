@@ -19,5 +19,6 @@ utils/cropper/[Oo]bj/
 *.toc
 
 
-Vystupy/Vystup3_Bilek/obrazky/
-Vystupy/Vystup2_Bilek/obrazky/
+*.png
+*.jpg
+*.jpeg
