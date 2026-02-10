@@ -18,6 +18,7 @@ utils/cropper/[Oo]bj/
 *.synctex.gz
 *.toc
 
+*.gcode
 
 *.png
 *.jpg
