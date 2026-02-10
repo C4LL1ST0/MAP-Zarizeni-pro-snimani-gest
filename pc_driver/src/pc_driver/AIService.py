@@ -129,5 +129,6 @@ class AIService:
 
         class_index = int(np.argmax(probs))
         gesture = Gesture(class_index)
-        press_key(gesture)
         self.ui.post_message(GestureMessage(gesture))
+        press_key(gesture)
+        
