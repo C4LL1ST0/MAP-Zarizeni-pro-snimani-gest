@@ -19,7 +19,7 @@ class Receiver:
         self.port: int = 1234
         self.sock: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind((self.ip, self.port))
-        self.sock.settimeout(1)
+        self.sock.settimeout(0.5)
         self.cache: Cache = Cache(self.ui)
         self.receiving = True
     def capture_data_thread(self, dataFile: str, gesture: Gesture):
