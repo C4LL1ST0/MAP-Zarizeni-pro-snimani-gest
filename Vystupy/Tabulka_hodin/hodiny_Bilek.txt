@@ -1,0 +1,6 @@
+"analýza" 3
+"výstup 1" 14.25
+"výstup 2" 19
+"výstup 3" 23.33
+"výstup 4" 15.5
+"závěrečná zpráva" 9
