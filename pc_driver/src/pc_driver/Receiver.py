@@ -88,8 +88,9 @@ class Receiver:
                 try:
                     packet, addr = self.sock.recvfrom(1024)
                 except (socket.timeout, TimeoutError):
-
-                    if self.cache.getLength() == 0:
+                    
+                    if self.cache.getLength() < 5: #kvuli timeoutu když víc hodnot než 45(aka dýlka gesta) (v cache přebývají hodnoty a tak to pak timeoutne)
+                        self.cache.clear()
                         continue
 
                     if(self.cache.getLength() < self.ai_service.gesture_length/2):
