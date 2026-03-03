@@ -96,7 +96,7 @@ class Receiver:
                         self.cache.clear()
                         self.ui.call_from_thread(
                             self.ui.post_message,
-                            InfoMessage("Uncomplete gesture received, data cannot be used./n Please try again.")
+                            InfoMessage("Uncomplete gesture received, data cannot be used. Please try again.")
                         )
                         continue
 
@@ -139,7 +139,7 @@ class Receiver:
                 if(self.cache.getLength() == self.ai_service.gesture_length):
                     self.ai_service.eval_gesture(self.cache.getData())
                     self.cache.clear()
-                    continue
+                    break
 
         threading.Thread(target=loop, daemon=True).start()
 
