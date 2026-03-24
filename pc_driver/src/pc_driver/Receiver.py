@@ -19,7 +19,7 @@ class Receiver:
         self.port: int = 1234
         self.sock: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind((self.ip, self.port))
-        self.sock.settimeout(0.5)
+        self.sock.settimeout(1)
         self.cache: Cache = Cache(self.ui)
         self.receiving = True
     def capture_data_thread(self, dataFile: str, gesture: Gesture):
@@ -97,7 +97,7 @@ class Receiver:
                         self.cache.clear()
                         self.ui.call_from_thread(
                             self.ui.post_message,
-                            InfoMessage("Uncomplete gesture received, data cannot be used./n Please try again.")
+                            InfoMessage("Uncomplete gesture received, data cannot be used. Please try again.")
                         )
                         continue
 

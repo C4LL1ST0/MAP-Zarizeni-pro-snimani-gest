@@ -1,0 +1,288 @@
+\documentclass[14pt]{beamer}
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{ {.//obrazky/} }
+
+\usepackage[czech]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usefonttheme{serif}
+\hypersetup{pdfstartview={Fit}}
+
+\title{Zařízení pro snímání gest}
+\author{Štěpán Bílek}
+\date{2025/2026}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+
+  \vspace{0.5cm}
+
+  {\footnotesize
+    vedoucí práce: Mgr.~Zbyšek Nechanický\\
+    oponent: Jaroslav Kořínek\\
+  }
+\end{frame}
+
+\begin{frame}{Obsah}
+  \tableofcontents
+\end{frame}
+
+\section{Představení mé osoby}
+\begin{frame}{Zájmy}
+	\begin{itemize}
+    \item programování
+    \item technika a konstruování
+    \item hra na kytaru
+    \item sport - lezení, jízda na kole
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Relevantní zkušenosti}
+	\begin{block}{Stáž}
+    roční studenstká stáž na Fyzikálním ústavu AV ČR
+  \end{block}
+  \begin{block}{Práce v ČT}
+    programování webových aplikací v České televizi
+  \end{block}
+\end{frame}
+
+\section{Představení práce}
+\begin{frame}{Představení práce - úvod}
+  \begin{itemize}
+    \item ovládat software nebo robota pohyby
+    \item nositelné zařízení
+    \item spolupráce se spolužákem Lukášem Karáskem
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Představení práce - kritéria}
+	\begin{itemize}
+    \item opravdová využitelnost zařízení
+    \item efektní a příjemné používání
+    \item rozšiřitelnost pro různé účely
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Představení práce - návrh řešení}
+	\begin{itemize}
+    \item nositelné senzorické zařízení
+    \item přenos nezpracovaných dat
+    \item ovládací program na počítač
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Představení práce - cíle}
+  \begin{itemize}
+    \item ovládaný program - prezentace
+    \item rozpoznávání 2 gest - \uv{doleva} a \uv{doprava}
+    \item cíl maturitní práce - posouvání snímků gesty
+  \end{itemize}
+\end{frame}
+
+
+\section{Popis vlastního řešení}
+\begin{frame}{Popis vlastního řešení - tištěný spoj}
+	\begin{itemize}
+    \item udělat zařízení co nejjednodušší
+    \item využít existující integrované spoje
+    \item komponenty připájené napřímo
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Popis vlastního řešení - neuronová síť}
+	\begin{itemize}
+    \item rozpoznání gesta
+    \item univerzálnost a rozšiřitelnost
+    \item převážně studium teorie
+    \item implementace pomocí knihoven
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Popis vlastního řešení - ovládací program}
+	\begin{itemize}
+    \item Python ekosystém
+    \item přenos dat přes UDP
+    \item trénování modelu UI
+    \item uživatelské rozhraní v terminálu
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Popis vlastního řešení - testování}
+	\begin{itemize}
+    \item špatný kontakt
+    \item chybné použití knihovny (gesta pouze \uv{doprava})
+    \item upravování trénovacích dat (délka, nesprávný model)
+  \end{itemize}
+\end{frame}
+
+
+\section{Ukázka vlastní práce}
+\begin{frame}{Ukázka vlastní práce - tištěný spoj}
+  \begin{columns}
+    \column{0.5\textwidth}
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{navrh_pcb.png}
+    \end{figure}
+
+    \column{0.5\textwidth}
+    \begin{itemize}
+      \item 2 vrstvy
+      \item vlastní obtisky součástek
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Ukázka vlastní práce - tištěný spoj}
+	\begin{columns}
+    \column{0.5\textwidth}
+    \begin{itemize}
+      \item hlavní vypínač
+      \item 3+1 tlačítka
+      \item 2 LED
+      \item 2 konektory
+    \end{itemize}
+
+    \column{0.5\textwidth}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=0.8\textwidth, angle=180]{neo.jpg}
+    \end{figure}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Ukázka vlastní práce - tištěný spoj}
+	\begin{columns}
+    \column{0.5\textwidth}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth, angle=270]{elek_celek.jpg}
+    \end{figure}
+
+    \column{0.5\textwidth}
+    \begin{itemize}
+      \item Li-pol akumulátor
+      \item regulátor nabíjení/vybíjení
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Ukázka vlastní práce - neuronová síť}
+	\begin{columns}
+    \column{0.5\textwidth}
+    \begin{itemize}
+      \item 2 skryté vrstvy
+      \item klasifikace 2 tříd
+      \item závislý počet vstupů
+    \end{itemize}
+
+    \column{0.5\textwidth}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{NN_python.png}
+    \end{figure}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Ukázka vlastní práce - rozhraní}
+	\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{UI.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Ukázka vlastní práce - rozhraní}
+	\begin{columns}
+    \column{0.5\textwidth}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{UI_live.png}
+    \end{figure}
+
+    \column{0.5\textwidth}
+    \begin{itemize}
+      \item živá data
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Ukázka vlastní práce - rozhraní}
+	\begin{columns}
+    \column{0.5\textwidth}
+    \begin{itemize}
+      \item stavové a chybové hlášky
+      \item soubory pro tréninková data
+    \end{itemize}
+
+    \column{0.5\textwidth}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{UI_msg.png}
+    \end{figure}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Ukázka vlastní práce - rozhraní}
+	\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{UI_comm.png}
+  \end{figure}
+  \begin{itemize}
+    \item funkce programu
+    \item klávesové zkratky
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ukázka vlastní práce - firmware}
+	\begin{itemize}
+    \item vyčítání dat z gyroskopu a akcelerometru
+    \item vlastní WiFi síť
+    \item odesílaní dat po zmáčknutí tlačítka
+    \item LED signalizující vysílání
+  \end{itemize}
+\end{frame}
+
+\section{Závěr}
+\begin{frame}{Závěr}
+  \begin{block}{Naplnění cílů}
+    \begin{itemize}
+      \item koncept ověřen
+      \item funkční prototyp
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Spolupráce}
+    \begin{itemize}
+      \item čekání na postupu spolupracovníka
+      \item obecně vpořádku
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Závěr}
+	\begin{block}{Pokračování v práci}
+    \begin{itemize}
+      \item tištěný spoj M2
+      \item automatické rozpoznání gest
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\section{Časová náročnost}
+\begin{frame}{Graf časové náročnosti}
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{hodiny.png}
+  \end{figure}
+  \begin{itemize}
+    \item celkový počet hodin: 92
+  \end{itemize}
+\end{frame}
+
+\end{document}

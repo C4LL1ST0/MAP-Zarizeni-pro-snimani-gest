@@ -4,3 +4,4 @@
 "výstup 3" 23.33
 "výstup 4" 15.5
 "závěrečná zpráva" 10
+"závěrečná prezentace" 8

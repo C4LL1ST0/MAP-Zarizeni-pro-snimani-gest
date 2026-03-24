@@ -26,10 +26,7 @@ void setup() {
 
   WiFi.softAP(ssid, password);
   IPAddress IP = WiFi.softAPIP();
-  Serial.print("AP IP address: ");
-  Serial.println(IP);
   udp.begin(udpPort);
-
 
   pinMode(1, OUTPUT);
   pinMode(21, INPUT_PULLUP);
@@ -59,7 +56,6 @@ void loop() {
   values[3]=Wire.read()<<8|Wire.read();
   values[4]=Wire.read()<<8|Wire.read();
   values[5]=Wire.read()<<8|Wire.read();
-
 
   if(millis() - lastTransmissionAt >= 20){
     if(transmitting){
