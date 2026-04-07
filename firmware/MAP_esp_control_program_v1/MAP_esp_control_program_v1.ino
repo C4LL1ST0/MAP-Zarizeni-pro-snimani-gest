@@ -2,12 +2,13 @@
 #include <WiFiUdp.h>
 #include <Wire.h>
 
+
 const int MPU_addr=0x68;
 
 int16_t Tmp;
 int16_t values[6];
 
-const char* ssid = "ESP_AP";
+const char* ssid = "Zarizeni_na_snimani_gest_SB";
 const char* password = "12345678";
 
 WiFiUDP udp;

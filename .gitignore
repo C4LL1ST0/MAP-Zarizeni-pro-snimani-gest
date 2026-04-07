@@ -25,3 +25,6 @@ utils/cropper/[Oo]bj/
 *.png
 *.jpg
 *.jpeg
+
+
+PCB/PCB-backups/
