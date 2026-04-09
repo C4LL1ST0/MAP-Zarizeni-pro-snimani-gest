@@ -3,7 +3,6 @@ from .Gesture import Gesture
 
 def press_key(gesture: Gesture):
     if gesture == Gesture.LEFT:
-        keyboard.press('left')
+        keyboard.press_and_release('left')
     elif gesture == Gesture.RIGHT:
-        keyboard.press('right')
-
+        keyboard.press_and_release('right')
