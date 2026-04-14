@@ -1,5 +1,8 @@
-* RUN
- - requirements: miniconda
+* pc_driver - ovládací program pro zařízení na snímání gest
+Jednoduché terminálové prostředí umožnující připojení k zařízení na snímání gest, jeho využívání a sběr trénovacích dat pro nová gesta.
+
+** RUN
+ - požadavky: anaconda distribuce
   #+begin_src bash
    cd MAP-Zarizeni-pro-snimani-gest/pc_driver
 
