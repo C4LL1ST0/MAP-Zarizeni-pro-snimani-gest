@@ -1,7 +1,12 @@
 * pc_driver - ovládací program pro zařízení na snímání gest
 Jednoduché terminálové prostředí umožnující připojení k zařízení na snímání gest, jeho využívání a sběr trénovacích dat pro nová gesta.
 
-** RUN
+** Možná rozšíření
+- uživatelsky definovatelná mapa gesto->klávesa
+- práce čistě s náklonem(hry, roboti) + gesto přepínající režimy
+- rozpoznání gest bez počátečního impulzu
+
+** Run
  - požadavky: anaconda distribuce
   #+begin_src bash
    cd MAP-Zarizeni-pro-snimani-gest/pc_driver
