@@ -22,13 +22,14 @@ class AIService:
         self.ui: App = ui
         self.norm = None
         self.gesture_length = 45
-        
+        self.gesture_count = 4
+
         self.model = Sequential([
             Input(shape=(self.gesture_length, 6)),
             LSTM(16, activation='tanh'),
             Dense(8),
             LeakyReLU(alpha=0.1),
-            Dense(2, activation='softmax')
+            Dense(self.gesture_count, activation='softmax')
         ])
         self.model.compile(
             optimizer=Adam(learning_rate=0.001),
@@ -59,7 +60,7 @@ class AIService:
         X = np.array(X, dtype=np.float32)
         y = np.array(y, dtype=np.int32)
 
-        y = to_categorical(y, num_classes=2)
+        y = to_categorical(y, num_classes=self.gesture_count)
 
         X, y = shuffle(X, y, random_state=42)
 
@@ -70,6 +71,8 @@ class AIService:
         self.norm = np.max(np.abs(X_train), axis=(0, 1))
         X_train = X_train / self.norm
         X_val = X_val / self.norm
+
+        self.ui.post_message(InfoMessage("here"))
 
         history = self.model.fit(
             X_train,

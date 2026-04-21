@@ -4,7 +4,7 @@ from textual.binding import Binding
 from textual.containers import Horizontal, Vertical
 from textual.widgets import Footer, Log, Input
 
-from .Gesture import Gesture
+from .Gesture import gesture_dict
 from .AIService import AIService
 from .Receiver import Receiver
 from .UiMessages import GestureMessage, SensorDataMessage, InfoMessage
@@ -19,16 +19,8 @@ class Tui(App):
     #message_text {
         border: solid yellow;
     }
-    #filename_text {
-        border: solid yellow;
-        width: 50%;
-    }
      #gesture_text {
         border: solid yellow;
-        width: 50%;
-    }
-    #input_div{
-        height: 10%;
     }
     """
 
@@ -38,17 +30,15 @@ class Tui(App):
         Binding("ctrl+d", "collect_train_data", "collect train data", show=True, priority=True)
     ]
 
-    filename = reactive("")
     gesture = reactive(None)
+    filename = reactive("")
 
     def compose(self) -> ComposeResult:
         with Horizontal():
             yield Log(id="data_log_text")
             with Vertical(id="right_side"):
                 yield Log(id="message_text")
-                with Horizontal(id="input_div"):
-                    yield Input(id="filename_text", placeholder="filename")
-                    yield Input(id="gesture_text", placeholder="gesture")
+                yield Input(id="gesture_text", placeholder="gesture")
         yield Footer()
 
     async def on_mount(self) -> None:
@@ -63,21 +53,13 @@ class Tui(App):
             self.post_message(InfoMessage(str(e)))
 
     async def on_input_submitted(self, event: Input.Submitted) -> None:
-        if event.input.id == "filename_text":
-            if event.input.value == "right.json" or event.input.value == "left.json":
-                self.filename = event.input.value
-            else:
-                self.post_message(InfoMessage("Filename should be either right.json or left.json."))
-            event.input.value = ""
-
-        elif event.input.id == "gesture_text":
-            if event.input.value == "left":
-                self.gesture = Gesture.LEFT
-            elif event.input.value == "right":
-                self.gesture = Gesture.RIGHT
-            else:
-                self.post_message(InfoMessage("Gesture must be either right or left."))
-            event.input.value = ""
+        if event.input.id == "gesture_text":
+            try:
+                self.gesture = gesture_dict[event.input.value]
+                self.filename = event.input.value + ".json"
+                self.post_message(InfoMessage("Gesture selected."))
+            except KeyError as ke:
+                self.post_message(InfoMessage("Specify valid gesture."))
 
     def action_start_receiver(self):
         self.post_message(InfoMessage("Starting receiver..."))
