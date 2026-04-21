@@ -30,7 +30,7 @@ void setup() {
   udp.begin(udpPort);
 
   pinMode(1, OUTPUT);
-  pinMode(21, INPUT_PULLUP);
+  pinMode(0, INPUT_PULLUP);
 }
 
 void loop() {
@@ -40,7 +40,7 @@ void loop() {
     transmitting = false;
   }
 
-  if(digitalRead(21) == 0 && !transmitting){
+  if(digitalRead(0) == 0 && !transmitting){
     transmitionStartedAt = millis();
     transmitting = true;
   }
