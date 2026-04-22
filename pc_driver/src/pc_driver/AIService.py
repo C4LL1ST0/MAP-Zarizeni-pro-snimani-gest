@@ -24,13 +24,19 @@ class AIService:
         self.gesture_length = 45
         self.gesture_count = 4
 
-        self.model = Sequential([
+        self.model = self.__new_model()
+        self.__compile_model()
+
+    def __new_model(self):
+        return Sequential([
             Input(shape=(self.gesture_length, 6)),
             LSTM(16, activation='tanh'),
             Dense(8),
             LeakyReLU(alpha=0.1),
             Dense(self.gesture_count, activation='softmax')
         ])
+
+    def __compile_model(self):
         self.model.compile(
             optimizer=Adam(learning_rate=0.001),
             loss='categorical_crossentropy',
@@ -39,6 +45,9 @@ class AIService:
         self.model.summary()
 
     def __train_model(self):
+        self.model = self.__new_model()
+        self.__compile_model()
+
         trainData: List[TrainObject] = []
 
         for filename in glob.glob("../data/*.json"):
@@ -71,8 +80,6 @@ class AIService:
         self.norm = np.max(np.abs(X_train), axis=(0, 1))
         X_train = X_train / self.norm
         X_val = X_val / self.norm
-
-        self.ui.post_message(InfoMessage("here"))
 
         history = self.model.fit(
             X_train,
@@ -111,9 +118,9 @@ class AIService:
         norm_names = glob.glob("../models/*.npy")
         if len(model_names) < 1 or len(norm_names) < 1:
             raise Exception("No models to load.")
-        self.model = load_model(model_names[-1])
-        self.norm = np.load(norm_names[-1])
-        self.ui.post_message(InfoMessage(f"Model: {model_names[-1]} loaded."))
+        self.model = load_model(model_names[0])
+        self.norm = np.load(norm_names[0])
+        self.ui.post_message(InfoMessage(f"Model: {model_names[0]} loaded."))
 
     def eval_gesture(self, sensor_data: List[SensorData]) -> None:
         if(self.model is None or self.norm is None):

@@ -48,7 +48,6 @@ class Tui(App):
         try:
             self.ai_service.load_model()
             self.post_message(InfoMessage("Model loaded successfully."))
-
         except Exception as e:
             self.post_message(InfoMessage(str(e)))
 
