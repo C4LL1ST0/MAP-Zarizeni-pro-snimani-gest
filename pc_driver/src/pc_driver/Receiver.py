@@ -1,3 +1,4 @@
+from numbers import Number
 import socket
 import struct
 from typing import Tuple
@@ -40,14 +41,13 @@ class Receiver:
         while self.receiving:
             packet: bytes
             addr: Tuple[str, int]
-
             packet = None
             try:
                 packet, addr = self.sock.recvfrom(1024)
             except (socket.timeout, TimeoutError):
                 if(self.cache.getLength() != 0):
-                    self.cache.saveCacheAsTrainDataToFile(dataFile, gesture)
-                    self.ui.post_message(InfoMessage(f"Data saved to file: {dataFile} gesture: {gesture}"))
+                    file_len = self.cache.saveCacheAsTrainDataToFile(dataFile, gesture)
+                    self.ui.post_message(InfoMessage(f"Data saved to file: {dataFile}, gesture: {gesture}, count: {file_len}"))
                     self.end_receiving()
                 break
 

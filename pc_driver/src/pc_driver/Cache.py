@@ -43,7 +43,7 @@ class Cache:
             sensor_data.append(ZERO_BLOCK.copy())
         return sensor_data
 
-    def saveCacheAsTrainDataToFile(self, filename: str, gesture: Gesture) -> None:
+    def saveCacheAsTrainDataToFile(self, filename: str, gesture: Gesture) -> int:
         myfile = Path("../data/" + filename)
         if(not myfile.is_file()):
             self.ui.post_message(InfoMessage("File: " + filename + " does not exist."))
@@ -74,6 +74,7 @@ class Cache:
             f.write(json_string)
 
         self.clear()
+        return len(trainData)
 
 
     def clear(self):

@@ -30,8 +30,8 @@ class AIService:
     def __new_model(self):
         return Sequential([
             Input(shape=(self.gesture_length, 6)),
-            LSTM(16, activation='tanh'),
-            Dense(8),
+            LSTM(45, activation='tanh'),
+            Dense(15),
             LeakyReLU(alpha=0.1),
             Dense(self.gesture_count, activation='softmax')
         ])
